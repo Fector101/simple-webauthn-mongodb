@@ -1,20 +1,20 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-let cachedDB
-const uri = process.env.MONGO_URI
+// let cachedDB
+// const uri = process.env.MONGO_URI
 
-if (!uri){
-    throw new Error('Please add URI to env vars')
-}
+// if (!uri){
+//     throw new Error('Please add URI to env vars')
+// }
 
-async function connectToDatabase() {
-    if(cachedDB){
-        return cachedDB
-    }
-    console.log('Creating new DB connection')
-    cachedDB = mongoose.connect( uri, {useNewUrlParser: true} )
+// async function connectToDatabase() {
+//     if(cachedDB){
+//         return cachedDB
+//     }
+//     console.log('Creating new DB connection')
+//     cachedDB = mongoose.connect( uri, {useNewUrlParser: true} )
     
-    return cachedDB
-}
+//     return cachedDB
+// }
 
-module.exports = connectToDatabase
+// module.exports = connectToDatabase
