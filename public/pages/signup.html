@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Signup</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/index.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Signup</h2>
+        <form method="POST">
+            <!-- <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required> -->
+
+            <label for="matric">Matric Number:</label>
+            <input type="text" id="matric" name="matric-no" value="A123456">
+
+            <label for="fingerprint">Fingerprint Authentication:</label>
+            <!-- <input type="button" id="fingerprint" value="Scan Fingerprint"> -->
+
+            <button type="submit" id="signupBtn">Register</button>
+            <p id="text"></p>
+        </form>
+        <p>Already registered? <a href="/dashboard">Go to Dashboard</a></p>
+        <p><a href="/admin-login">Admin Login</a></p>
+    </div>
+</body>
+</html>
