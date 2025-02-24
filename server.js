@@ -7,7 +7,7 @@ const authns =  require('./src/routes/authns')
 const adminRoutes =  require('./src/routes/admins')
 const studentRoutes =  require('./src/routes/students')
 
-const connectDB = require('./src/db')
+// const connectDB = require('./src/db')
 const app = express()
 const port = process.env.PORT || 4000
 
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 // Connect to MongoDB
-connectDB()
+// connectDB()
 
 
 // Routes
