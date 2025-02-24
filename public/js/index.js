@@ -17,6 +17,7 @@ async function authenticateFingerprint(e){
     pubKeyCredParams: [{alg: -7, type: "public-key"}],
     authenticatorSelection: {
         authenticatorAttachment: "cross-platform",
+        userVerification: "preferred" 
     },
     timeout: 60000,
     attestation: "direct"
