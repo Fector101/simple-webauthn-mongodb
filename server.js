@@ -3,13 +3,14 @@ const path = require('path');
 const express = require('express')
 const cors = require('cors')
 
-// const authns =  require('./src/routes/authns')
+const authns =  require('./src/routes/authns')
 // const adminRoutes =  require('./src/routes/admins')
 // const studentRoutes =  require('./src/routes/students')
 
 // const connectDB = require('./src/db')
 const app = express()
 const port = process.env.PORT || 4000
+// const port = 4000
 
 // Middleware
 app.use(express.static('public'))
@@ -24,7 +25,7 @@ app.use(cors())
 // Routes
 // app.use('/', studentRoutes)
 // app.use('/', adminRoutes)
-// app.use('/api/authn', authns)
+app.use('/api/authn', authns)
 
 app.get('/',(req,res)=>{
   console.log(__dirname,' __dirname')

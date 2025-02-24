@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const path = require('path')
-
+const crypto = require("crypto");
+const base64url = require("base64url");
 const router = express.Router()
 
 // router.post('/signup', async (req, res) => {
@@ -35,39 +36,35 @@ router.post('/signup', async (req, res) => {
     try {
         const student_name = req.body['name']
         const matric_no = req.body['matric-no']
-
-        // let user = await User.findOne({ matric_no })
-        // if (user) return res.status(400).json({ error: 'Student already exists' })
-
-        // const challenge = new Uint8Array(crypto.randomBytes(32))
-        // console.log('log ',crypto.randomBytes(32))
-        // const challenge = base64url.encode(crypto.randomBytes(32))
+        const challenge = "UZSL85T9AFC"//base64url.encode(crypto.randomBytes(32))
+        const userId = "UZSL85T9AFC"//base64url.encode(crypto.randomBytes(16))
+        // Uint8Array.from(
+        //     "UZSL85T9AFC", c => c.charCodeAt(0)),
         const publicKeyCredentialCreationOptions = {
-            challenge: Uint8Array.from(
-                randomStringFromServer, c => c.charCodeAt(0)),
+            challenge,
             rp: {
                 name: "Duo Security",
-                id: "duosecurity.com",
+                // id: "duosecurity.com",
             },
             user: {
-                id: Uint8Array.from(
-                    "UZSL85T9AFC", c => c.charCodeAt(0)),
+                id: userId,
                 name: "lee@webauthn.guide",
                 displayName: "Lee",
             },
             pubKeyCredParams: [{alg: -7, type: "public-key"}],
             authenticatorSelection: {
-                authenticatorAttachment: "cross-platform",
+                authenticatorAttachment: "platform",
+                userVerification: "preferred" 
             },
             timeout: 60000,
             attestation: "direct"
-        };
-        res.send(publicKeyCredentialCreationOptions);
-
+            };
+        
+            
         console.log('-----------------------------------')
         console.log(publicKeyCredentialCreationOptions, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
-        // res.json(publicKeyCredentialCreationOptions);
+        res.json(publicKeyCredentialCreationOptions);
         
         // Get fingerprint data
         // const hashedPassword = await bcrypt.hash(password, 10)

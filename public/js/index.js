@@ -1,36 +1,26 @@
 async function authenticateFingerprint(e){
     console.log(e)
     e.preventDefault();
-    try{
-
-    const publicKeyCredentialCreationOptions = {
-    challenge: Uint8Array.from([0,12,3,4,5,6]),
-    rp: {
-        name: "Duo Security",
-        // id: "duosecurity.com",
-    },
-    user: {
-        id: new Uint8Array(16),
-        name: "lee@webauthn.guide",
-        displayName: "Lee",
-    },
-    pubKeyCredParams: [{alg: -7, type: "public-key"}],
-    authenticatorSelection: {
-        authenticatorAttachment: "platform",
-        userVerification: "preferred" 
-    },
-    timeout: 60000,
-    attestation: "direct"
-    };
-
-    const credential = await navigator.credentials.create({
-    publicKey: publicKeyCredentialCreationOptions
-    });
-}
-catch(err){
-document.querySelector('#text').innerText = err;
+    matric_no = document.querySelector('#matric').value;
+    // try{
+        const response = await fetch("/api/authn/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ matric_no })
+        });
+        const publicKey = await response.json();
+        console.log(publicKey)
+        publicKey.challenge = Uint8Array.from(atob(publicKey.challenge), c => c.charCodeAt(0));
+        publicKey.user.id = Uint8Array.from(atob(publicKey.user.id), c => c.charCodeAt(0));
+        // document.querySelector('#text').innerText = publicKey;
+        const credential = await navigator.credentials.create({publicKey})
+            
+        
+// }
+// catch(err){
+// document.querySelector('#text').innerText = err;
     
-}
+// }
 }
 
 document.querySelector('#signupBtn').addEventListener('click', authenticateFingerprint);
