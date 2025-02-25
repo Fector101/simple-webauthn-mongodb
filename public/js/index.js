@@ -27,7 +27,7 @@ async function authenticateFingerprint(e){
         })
         const verify = await verify_response.json();
         console.log(verify,'verification var')
-        document.querySelector('#text').innerText = verify
+        document.querySelector('#text').innerText = JSON.stringify(verify)
         // const credential = await navigator.credentials.create({publicKey})
             
         
