@@ -46,11 +46,12 @@ router.post('/init-reg', async (req, res) => {
         const student_name = req.body['name'] || 'Fabian'
         const matric_no = req.body.matric_no || 'FT23CMP0001'
         console.log(matric_no, ' matric_no')
+        let user = await User.findOne({ matric_no })
+        if (user) return res.status(400).json({ exists: true })
+        
         const opts = await generateRegistrationOptions({
             rpName: RP_NAME,
             rpID: RP_ID,
-            // rpID: "clean-kohl.vercel.app",
-            // rpID: "localhost",
             userName: matric_no,
             userDisplayName: student_name,
             // authenticatorSelection: {userVerification: 'preferred' 
@@ -61,7 +62,6 @@ router.post('/init-reg', async (req, res) => {
                 userVerification: 'preferred',
                 requireResidentKey: true
               },
-            // userID: 'matric_no',
             
         })
         
@@ -96,7 +96,7 @@ router.post('/init-reg', async (req, res) => {
         console.log('-----------------------------------')
         console.log(opts.challenge, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
-        res.json(opts);
+        res.json(ok:true,data:opts)
         
         // Get fingerprint data
         // const hashedPassword = await bcrypt.hash(password, 10)
@@ -136,6 +136,8 @@ router.post('/verify-reg', async (req, res) => {
         transports:body.registationJSON.transports
         }
         res.json(val);
+        res.json(ok:true,data:val)
+        
 
     }catch(err){
         console.log('verification error: ', err)
