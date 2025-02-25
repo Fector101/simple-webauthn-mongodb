@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const base64url = require("base64url");
 const router = express.Router()
 const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse} =require("@simplewebauthn/server")
-const { json } = require('stream/consumers')
+
 
 
 const CLIENT_URL =  process.env.CLIENT_URL || 'http://localhost:3000'
@@ -53,7 +53,14 @@ router.post('/init-reg', async (req, res) => {
             // rpID: "localhost",
             userName: matric_no,
             userDisplayName: student_name,
-            authenticatorSelection: {userVerification: 'preferred' }
+            // authenticatorSelection: {userVerification: 'preferred' 
+            // }
+
+            authenticatorSelection: {
+                authenticatorAttachment: 'cross-platform',
+                userVerification: 'preferred',
+                requireResidentKey: true
+              },
             // userID: 'matric_no',
             
         })
@@ -86,6 +93,8 @@ router.post('/init-reg', async (req, res) => {
         }
         console.log('-----------------------------------')
         console.log(opts, ' opts')
+        console.log('-----------------------------------')
+        console.log(opts,challenge, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
         res.json(opts);
         
