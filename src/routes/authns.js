@@ -118,7 +118,7 @@ router.post('/verify-reg', async (req, res) => {
             response: body.registationJSON,
             expectedChallenge: data.challenge,
             expectedOrigin: CLIENT_URL,
-            expectedRPID: 'https://' + RP_ID,
+            expectedRPID: RP_ID,
         })
     
         const val = {id: verification.registrationInfo.credential.id,
