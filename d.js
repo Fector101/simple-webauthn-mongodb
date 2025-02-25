@@ -6,7 +6,7 @@ const path = require('path')
 const crypto = require("crypto");
 const base64url = require("base64url");
 const router = express.Router()
-const {generateAuthenticationOptions,generateRegistrationOptions} =require("@simplewebauthn/server")
+
 // router.post('/signup', async (req, res) => {
     // try {
     //     const student_name = req.body['name']
@@ -30,47 +30,41 @@ const {generateAuthenticationOptions,generateRegistrationOptions} =require("@sim
 // })
 
 
-let data={}
 
-router.post('/init-reg', async (req, res) => {
+
+router.post('/signup', async (req, res) => {
     try {
         const student_name = req.body['name']
         const matric_no = req.body['matric-no']
-        const opts = await generateRegistrationOptions({
-            rpName: "Clean Kohl",
-            rpID: "localhost",
-            userName: 'matric_no',
-            userDisplayName: 'matric_no',
-            // userID: 'matric_no',
-            
-        })
-        
-        // rpID: "clean-kohl.vercel.app",
-        // const publicKeyCredentialCreationOptions = {
-        //     challenge,
-        //     rp: {
-        //         name: "Duo Security",
-        //         // id: "duosecurity.com",
-        //     },
-        //     user: {
-        //         id: userId,
-        //         name: "lee@webauthn.guide",
-        //         displayName: "Lee",
-        //     },
-        //     pubKeyCredParams: [{alg: -7, type: "public-key"}],
-        //     authenticatorSelection: {
-        //         authenticatorAttachment: "platform",
-        //         userVerification: "preferred" 
-        //     },
-        //     timeout: 60000,
-        //     attestation: "direct"
-        //     };
+        const challenge = "UZSL85T9AFC"//base64url.encode(crypto.randomBytes(32))
+        const userId = "UZSL85T9AFC"//base64url.encode(crypto.randomBytes(16))
+        // Uint8Array.from(
+        //     "UZSL85T9AFC", c => c.charCodeAt(0)),
+        const publicKeyCredentialCreationOptions = {
+            challenge,
+            rp: {
+                name: "Duo Security",
+                // id: "duosecurity.com",
+            },
+            user: {
+                id: userId,
+                name: "lee@webauthn.guide",
+                displayName: "Lee",
+            },
+            pubKeyCredParams: [{alg: -7, type: "public-key"}],
+            authenticatorSelection: {
+                authenticatorAttachment: "platform",
+                userVerification: "preferred" 
+            },
+            timeout: 60000,
+            attestation: "direct"
+            };
         
             
         console.log('-----------------------------------')
-        console.log(opts, ' opts')
+        console.log(publicKeyCredentialCreationOptions, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
-        res.json(opts);
+        res.json(publicKeyCredentialCreationOptions);
         
         // Get fingerprint data
         // const hashedPassword = await bcrypt.hash(password, 10)
