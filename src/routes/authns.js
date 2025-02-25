@@ -38,7 +38,7 @@ router.post('/init-reg', async (req, res) => {
         const matric_no = req.body['matric-no']
         const opts = await generateRegistrationOptions({
             rpName: "Clean Kohl",
-            rpID: "localhost",
+            rpID: "clean-kohl.vercel.app",
             userName: 'matric_no',
             userDisplayName: 'matric_no',
             // userID: 'matric_no',
