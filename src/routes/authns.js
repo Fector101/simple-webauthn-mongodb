@@ -94,7 +94,7 @@ router.post('/init-reg', async (req, res) => {
         console.log('-----------------------------------')
         console.log(opts, ' opts')
         console.log('-----------------------------------')
-        console.log(opts,challenge, ' challenge')
+        console.log(opts.challenge, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
         res.json(opts);
         
