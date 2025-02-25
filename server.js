@@ -36,7 +36,7 @@ app.get('/',(req,res)=>{
 
 // For when user puts in wrong Routes
 app.use((req,res)=>{
-  res.status(404).send('Page This Page dosen\'t exist uigvi')
+  res.status(404).send('Page This Page dosen\'t exist')
 })
 
 
