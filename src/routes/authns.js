@@ -6,7 +6,14 @@ const path = require('path')
 const crypto = require("crypto");
 const base64url = require("base64url");
 const router = express.Router()
-const {generateAuthenticationOptions,generateRegistrationOptions} =require("@simplewebauthn/server")
+const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse} =require("@simplewebauthn/server")
+const { json } = require('stream/consumers')
+
+
+const CLIENT_URL =  process.env.CLIENT_URL || 'http://localhost:3000'
+const RP_NAME = process.env.RP_NAME || 'Clean Kohl'
+const RP_ID = process.env.RP_ID || 'localhost'
+
 // router.post('/signup', async (req, res) => {
     // try {
     //     const student_name = req.body['name']
@@ -38,9 +45,10 @@ router.post('/init-reg', async (req, res) => {
         const matric_no = req.body.matric_no || 'FT23CMP0001'
         console.log(matric_no, ' matric_no')
         const opts = await generateRegistrationOptions({
-            rpName: "Clean Kohl",
+            rpName: RP_NAME,
+            rpID: RP_ID,
             // rpID: "clean-kohl.vercel.app",
-            rpID: "localhost",
+            // rpID: "localhost",
             userName: matric_no,
             userDisplayName: student_name,
             authenticatorSelection: {userVerification: 'preferred' }
@@ -69,7 +77,11 @@ router.post('/init-reg', async (req, res) => {
         //     attestation: "direct"
         //     };
         
-            
+        data={
+            matric_no, 
+            userId: opts.user.id,
+            challenge: opts.challenge
+        }
         console.log('-----------------------------------')
         console.log(opts, ' opts')
         // await db.collection("users").doc(email).set({ challenge });
@@ -85,10 +97,38 @@ router.post('/init-reg', async (req, res) => {
         // res.status(201).json({ message: 'Student registered successfully' })
     } catch (err) {
         console.log('signup error: ', err)
-        res.status(500).json({ error: 'Server error' })
+        res.status(400).json({ error: 'Server error' })
     }
 })
 
+router.post('/verify-reg', async (req, res) => {
+
+    console.log('data value ',data)
+    console.log('-------------------------------')
+    console.log('req value ',req)
+
+    try{
+        const verification = await verifyRegistrationResponse({
+            response: req.registationJSON,
+            expectedChallenge: data.challenge,
+            expectedOrigin: CLIENT_URL,
+            expectedRPID: RP_ID,
+        })
+    
+        const val = {id: verification.registrationInfo.credential.id,
+        publicKey:verification.registrationInfo.credential.publicKey,
+        counter: verification.registrationInfo.credential.counter,
+        counter:req.registationJSON.transports
+        }
+        res.json(val);
+
+    }catch(err){
+        console.log('verification error: ', err)
+        res.status(400).json({ error: 'Server error' })
+    }
+
+
+})
 
 
 router.post('/login', async (req, res) => {

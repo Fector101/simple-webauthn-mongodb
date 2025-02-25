@@ -20,13 +20,13 @@ async function authenticateFingerprint(e){
         const registationJSON =await startRegistration(publicKey)
     
         // save passkey
-        // const verify_response = await fetch("/api/authn/verify-reg", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(registationJSON)
-        // })
-        // const verify = await verify_response.json();
-        // console.log(verify)
+        const verify_response = await fetch("/api/authn/verify-reg", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({registationJSON, matric_no})
+        })
+        const verify = await verify_response.json();
+        console.log(verify,'verification var')
         // document.querySelector('#text').innerText = verify
         // const credential = await navigator.credentials.create({publicKey})
             
