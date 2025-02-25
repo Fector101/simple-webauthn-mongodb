@@ -35,7 +35,8 @@ let data={}
 router.post('/init-reg', async (req, res) => {
     try {
         const student_name = req.body['name'] || 'Fabian'
-        const matric_no = req.body['matric-no']
+        const matric_no = req.body.matric_no || 'FT23CMP0001'
+        console.log(matric_no, ' matric_no')
         const opts = await generateRegistrationOptions({
             rpName: "Clean Kohl",
             rpID: "clean-kohl.vercel.app",
