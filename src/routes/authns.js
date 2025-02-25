@@ -122,9 +122,9 @@ router.post('/verify-reg', async (req, res) => {
         })
     
         const val = {id: verification.registrationInfo.credential.id,
-        publicKey:verification.registrationInfo.credential.publicKey,
+        // publicKey:verification.registrationInfo.credential.publicKey,
         counter: verification.registrationInfo.credential.counter,
-        counter:body.registationJSON.transports
+        transports:body.registationJSON.transports
         }
         res.json(val);
 
