@@ -13,7 +13,9 @@ const { json } = require('stream/consumers')
 const CLIENT_URL =  process.env.CLIENT_URL || 'http://localhost:3000'
 const RP_NAME = process.env.RP_NAME || 'Clean Kohl'
 const RP_ID = process.env.RP_ID || 'localhost'
-
+console.log(CLIENT_URL, ' CLIENT_URL from env.')
+console.log(RP_NAME, ' RP_NAME from env.')
+console.log(RP_ID, ' RP_ID from env.')
 // router.post('/signup', async (req, res) => {
     // try {
     //     const student_name = req.body['name']
