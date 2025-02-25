@@ -107,11 +107,15 @@ router.post('/verify-reg', async (req, res) => {
 
     console.log('data value ',data)
     console.log('-------------------------------')
-    console.log('req value ',req)
-
+    console.log('req matric_no ',req.body.matric_no)
+    console.log('-------------------------------')
+    console.log('req body ',req.body)
+    console.log('-------------------------------')
+    console.log('req value ',req.body.registationJSON)
+    const body = req.body
     try{
         const verification = await verifyRegistrationResponse({
-            response: req.registationJSON,
+            response: body.registationJSON,
             expectedChallenge: data.challenge,
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
@@ -120,7 +124,7 @@ router.post('/verify-reg', async (req, res) => {
         const val = {id: verification.registrationInfo.credential.id,
         publicKey:verification.registrationInfo.credential.publicKey,
         counter: verification.registrationInfo.credential.counter,
-        counter:req.registationJSON.transports
+        counter:body.registationJSON.transports
         }
         res.json(val);
 
