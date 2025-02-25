@@ -28,7 +28,6 @@ app.use(cors())
 app.use('/api/authn', authns)
 
 app.get('/',(req,res)=>{
-  console.log(__dirname,' __dirname')
   res.sendFile(path.join(__dirname, '/public/pages/signup.html'))
   
 })
