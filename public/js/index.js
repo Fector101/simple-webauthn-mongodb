@@ -1,34 +1,62 @@
-// const { startRegistration } = require("@simplewebauthn/browser");
+function displayHint(hint) {
+    document.querySelector('#text').innerText = hint
+}
 const { startRegistration } = SimpleWebAuthnBrowser;
-async function authenticateFingerprint(e){
-    console.log(e)
+async function signUpfingerprint(e){
     e.preventDefault();
-    matric_no = document.querySelector('#matric').value;
+    matric_no = document.querySelector('#matric').value
+    student_name = document.querySelector('#name').value
     try{
-        const response = await fetch("/api/authn/init-reg", {
+
+        // Get challenge from server, challenge is used to verify the response from the client
+        const response = await fetch("/api/authn/init-reg", 
+            {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ matric_no })
+            body: JSON.stringify({ matric_no }),
+            credentials: "include"
         })
-        const publicKey = await response.json();
-        console.log(publicKey)
-        // publicKey.challenge = Uint8Array.from(atob(publicKey.challenge), c => c.charCodeAt(0));
-        // publicKey.user.id = Uint8Array.from(atob(publicKey.user.id), c => c.charCodeAt(0));
 
+        // Parse JSON response
+        const initResponse = await response.json()
+
+        if(initResponse.error){
+            displayHint(JSON.stringify(initResponse))
+            return
+        }
+        else if(initResponse.exists){
+            displayHint('Student already exists')
+            return
+        }
+        else if(initResponse.msg === 'xxx'){
+            displayHint('This device is not supported authentication')
+            return
+        }
 
         // Create passkey
-        const registationJSON =await startRegistration(publicKey)
-    
-        // save passkey
+        const registationJSON =await startRegistration(initResponse)
+        
+        console.log(registationJSON,'registationJSON var')
+        
+        // Save and verify passkey with server
         const verify_response = await fetch("/api/authn/verify-reg", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({registationJSON, matric_no})
+            body: JSON.stringify({registationJSON, matric_no,student_name}),
+            credentials: "include"
         })
-        const verify = await verify_response.json();
-        console.log(verify,'verification var')
-        document.querySelector('#text').innerText = JSON.stringify(verify)
-        // const credential = await navigator.credentials.create({publicKey})
+        const verifyResponse = await verify_response.json();
+
+        if(verifyResponse.error){
+            displayHint(JSON.stringify(initResponse))
+            return
+        }
+        else{
+            displayHint('Student Registered successfully')
+            // displayHint('Student Registered successfully')
+            // redirect to login page frm server with matric_no
+        }
+        console.log(verifyResponse,'verification var')
             
         
 }
@@ -38,4 +66,4 @@ document.querySelector('#text').innerText = err;
 }
 }
 
-document.querySelector('#signupBtn').addEventListener('click', authenticateFingerprint);
+document.querySelector('#signupBtn').addEventListener('click', signUpfingerprint);

@@ -1,14 +1,20 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const User = require('../models/user')
+const Student = require('../models/Student')
 const path = require('path')
 const crypto = require("crypto");
 const base64url = require("base64url");
 const router = express.Router()
 const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse} =require("@simplewebauthn/server")
 
-
+const {
+    getUserByMatricNo,
+    createUser,
+    updateUserCounter,
+    getUserById,
+  } = require("./../db")
+  
 
 const CLIENT_URL =  process.env.CLIENT_URL || 'http://localhost:3000'
 const RP_NAME = process.env.RP_NAME || 'Clean Kohl'
@@ -46,26 +52,39 @@ router.post('/init-reg', async (req, res) => {
         const student_name = req.body['name'] || 'Fabian'
         const matric_no = req.body.matric_no || 'FT23CMP0001'
         console.log(matric_no, ' matric_no')
+
+        let student = getUserByMatricNo(matric_no)
+        if (student) return res.status(400).json({ exists: true })
+
+        // let student = await Student.findOne({ matric_no })
+        // if (student) return res.status(400).json({ exists: true })
+
         const opts = await generateRegistrationOptions({
             rpName: RP_NAME,
             rpID: RP_ID,
-            // rpID: "clean-kohl.vercel.app",
-            // rpID: "localhost",
             userName: matric_no,
             userDisplayName: student_name,
             // authenticatorSelection: {userVerification: 'preferred' 
             // }
 
             authenticatorSelection: {
-                authenticatorAttachment: 'cross-platform',
+                authenticatorAttachment: 'platform',
                 userVerification: 'preferred',
                 requireResidentKey: true
               },
-            // userID: 'matric_no',
             
         })
         
-        // rpID: "clean-kohl.vercel.app",
+
+
+        // Storing Information From Request
+
+        res.cookie('regInfo',JSON.stringify({
+            matric_no, 
+            userId: opts.user.id,
+            challenge: opts.challenge
+        }), {httpOnly: true, maxAge: 50*1000, secure: true}
+        )
         // const publicKeyCredentialCreationOptions = {
         //     challenge,
         //     rp: {
@@ -96,10 +115,7 @@ router.post('/init-reg', async (req, res) => {
         console.log('-----------------------------------')
         console.log(opts.challenge, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
-        res.json(opts);
-        
-        // Get fingerprint data
-        // const hashedPassword = await bcrypt.hash(password, 10)
+        res.json(opts)
 
         // user = new User({ matric_no, matric_no, password: hashedPassword })
         // user = new User({ student_name, matric_no })
@@ -113,6 +129,16 @@ router.post('/init-reg', async (req, res) => {
 })
 
 router.post('/verify-reg', async (req, res) => {
+    const regInfo = JSON.parse(req.cookies.regInfo)
+    if (!regInfo) {
+        return res.status(400).json({ error: "Authentication info not found" })
+    }
+    
+    // const Student = getUserById(regInfo.userId)
+    // if (Student == null || Student.matric_no != req.body.matric_no) {
+    //     return res.status(400).json({ error: `Invalid user excepted ${Student}` })
+    // }
+
 
     console.log('data value ',data)
     console.log('-------------------------------')
@@ -122,6 +148,9 @@ router.post('/verify-reg', async (req, res) => {
     console.log('-------------------------------')
     console.log('req value ',req.body.registationJSON)
     const body = req.body
+
+    console.log('regInfo', regInfo)
+    
     try{
         const verification = await verifyRegistrationResponse({
             response: body.registationJSON,
@@ -130,12 +159,38 @@ router.post('/verify-reg', async (req, res) => {
             expectedRPID: RP_ID,
         })
     
-        const val = {id: verification.registrationInfo.credential.id,
-        // publicKey:verification.registrationInfo.credential.publicKey,
-        counter: verification.registrationInfo.credential.counter,
-        transports:body.registationJSON.transports
+
+        if (verification.verified) {
+            // Store Student in DB
+            const data_to_store = {
+                id: verification.registrationInfo.credential.id,
+                matric_no: req.body.matric_no,
+                student_name: req.body.student_name,
+                publicKey:verification.registrationInfo.credential.publicKey,
+                counter: verification.registrationInfo.credential.counter,
+                deviceType: verification.registrationInfo.credentialDeviceType,
+                backedUp: verification.registrationInfo.credentialBackedUp,
+                transports:body.registationJSON.transports,
+            }
+            createUser(data_to_store.id, data_to_store.matric_no, passKey={
+                publicKey: data_to_store.publicKey,
+                counter: data_to_store.counter,
+                deviceType: data_to_store.deviceType,
+                backedUp: data_to_store.backedUp,
+                transports: data_to_store.transports
+            })
+            console.log(data_to_store, ' data_to_store')
+            console.log(getUserByMatricNo(req.body.matric_no), ' getUserByMatricNo(req.body.matric_no)')
+            res.clearCookie("regInfo")
+
+            // createUser(id:'')
+            // user = new User(data_to_store)
+            // await user.save()
+            res.json(data_to_store);
+        }else{
+            return res.status(400).json({ error: "Verification failed" })
         }
-        res.json(val);
+
 
     }catch(err){
         console.log('verification error: ', err)
