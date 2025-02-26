@@ -9,7 +9,6 @@ async function signUpfingerprint(e){
     let student_name = document.querySelector('#name').value
     try{
         if(localStorage.getItem('gc1fab_matric_no')){
-            displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
             const is_stud_response = await fetch("/api/authn/is-student", 
                 {
                 method: "POST",
@@ -19,6 +18,8 @@ async function signUpfingerprint(e){
             })
             const res_ = await is_stud_response.json()
             if(res_.exists && !res_.error){
+                displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
+
                 return
             }
         }
