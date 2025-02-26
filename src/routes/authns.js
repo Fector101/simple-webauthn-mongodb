@@ -217,6 +217,7 @@ router.post('/verify-auth', async (req, res) => {
     
     const student = getUserById(authInfo.userId)
     console.log('student-----| ', student)
+    // if student exists ||| student id === the id frm request and thumbprint public key matches with matric no
     if ( !student || (student.id != body.authJSON.id && student.matric_no != matric_no)) {
         return res.status(400).json({ error: "Invalid Student" })
     }
@@ -228,7 +229,7 @@ router.post('/verify-auth', async (req, res) => {
             expectedRPID: RP_ID,
             credential: {
                 id: student.id,
-                publicKey: student.passKey.publicKey,
+                publicKey: new Uint8Array(student.passKey.publicKey),
                 counter: student.passKey.counter,
                 transports: student.passKey.transports
             }
