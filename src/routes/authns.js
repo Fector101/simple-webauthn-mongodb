@@ -27,6 +27,21 @@ const RP_ID = process.env.RP_ID || 'localhost'
 router.use(cookieParser())
 
 
+router.post('/is-student', async (req, res) => {
+    try{
+        const matric_no = req.body.matric_no || 'FT23CMP0001'
+        let student = getUserByMatricNo(matric_no)
+        if (student){
+            return res.status(200).json({ exists: true})}
+        else{
+            return res.status(200).json({ exists: false})
+        }
+    }
+    catch(err){
+        console.log('is-student error: ', err)
+        res.status(400).json({ error: 'Server error' })
+    }
+})
 router.post('/init-reg', async (req, res) => {
     try {
         const student_name = req.body.student_name || 'NSUK Student'

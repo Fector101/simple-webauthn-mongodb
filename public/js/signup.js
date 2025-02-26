@@ -10,9 +10,19 @@ async function signUpfingerprint(e){
     try{
         if(localStorage.getItem('gc1fab_matric_no')){
             displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
-            return
+            const is_stud_response = await fetch("/api/authn/is-student", 
+                {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ matric_no }),
+                credentials: "include"
+            })
+            const res_ = await is_stud_response.json()
+            if(res_.exists && !res_.error){
+                return
+            }
         }
-        
+
         
         // Get challenge from server, challenge is used to verify the response from the client
         const response = await fetch("/api/authn/init-reg", 
@@ -22,7 +32,6 @@ async function signUpfingerprint(e){
             body: JSON.stringify({ matric_no,student_name }),
             credentials: "include"
         })
-
         // Parse JSON response
         const initResponse = await response.json()
 
