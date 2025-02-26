@@ -217,7 +217,7 @@ router.post('/verify-auth', async (req, res) => {
     
     const student = getUserById(authInfo.userId)
     console.log('student-----| ', student)
-    if ( !student || student.id != body.authJSON.id) {
+    if ( !student || (student.id != body.authJSON.id && student.matric_no != matric_no)) {
         return res.status(400).json({ error: "Invalid Student" })
     }
     try{
@@ -227,10 +227,10 @@ router.post('/verify-auth', async (req, res) => {
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
             credential: {
-                id: user.id,
-                publicKey: user.passKey.publicKey,
-                counter: user.passKey.counter,
-                transports: user.passKey.transports
+                id: student.id,
+                publicKey: student.passKey.publicKey,
+                counter: student.passKey.counter,
+                transports: student.passKey.transports
             }
         })
     
@@ -249,7 +249,7 @@ router.post('/verify-auth', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
-            updateUserCounter(user.id,verification.newCounter)
+            updateUserCounter(student.id,verification.newCounter)
             console.log('-------------------------------')
             console.log(data_to_store, ' data_to_store')
             console.log('-------------------------------')
