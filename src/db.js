@@ -21,7 +21,7 @@
 
 const USERS = []
 function getAllStudents(){
-  return USERS
+  return USERS.map(user => ({name:user.student_name, matric_no:user.matric_no}))
 }
 function getUserByMatricNo(matric_no) {
   return USERS.find(user => user.matric_no === matric_no)
