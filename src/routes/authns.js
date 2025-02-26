@@ -157,7 +157,6 @@ router.post('/init-auth', async (req, res) => {
         let student = getUserByMatricNo(matric_no)
         console.log(student, ' student')
         if (!student) return res.status(400).json({ exists: false })
-        console.log('reached here1-------------')
             
         const opts = await generateAuthenticationOptions({
             rpID: RP_ID,
@@ -169,11 +168,12 @@ router.post('/init-auth', async (req, res) => {
                 }
             ]
         })
+        console.log('What\'s in opts-------------| ',opts)
         
 
         res.cookie('authInfo',JSON.stringify({
             matric_no, 
-            userId: opts.user.id,
+            userId: student.id,
             challenge: opts.challenge
         }), {httpOnly: true, maxAge: 50*1000, secure: true}
         )
