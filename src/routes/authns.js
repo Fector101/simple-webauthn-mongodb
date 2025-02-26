@@ -115,7 +115,7 @@ router.post('/verify-reg', async (req, res) => {
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
                 // publicKey:verification.registrationInfo.credential.publicKey,
-                publicKey: body.registrationInfo.response.publicKey,
+                publicKey: body.registationJSON.response.publicKey,
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
