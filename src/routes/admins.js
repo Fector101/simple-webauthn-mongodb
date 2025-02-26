@@ -16,7 +16,19 @@ const authMiddleware = (req, res, next) => {
 };
 
 
-
+function formatData(data) {
+  let formatted_data='<table> <tr> <th> Name </th> <th> Matric No </th> </tr>'
+  data.forEach((student) => {
+    formatted_data += `<tr>
+    <td>${student.name}</td>
+    <td>${student.matric_no}</td></tr>
+    `
+  }
+  )
+  formatted_data += '</table>'
+  return formatted_data
+}
+    
 
 const router = express.Router();
 router.use(cookieParser())
@@ -33,11 +45,12 @@ router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   try {
     const studentsData = getAllStudents();
       // req.user is set by the middleware
-      res.json({ 
-      message: 'Admin dashboard accessed successfully', 
-      studentsData
+      // res.json({ 
+      // message: 'Admin dashboard accessed successfully', 
+      // "studentsData": formatData(studentsData)
 
-      });
+      // });
+      res.send(formatData(studentsData))
       
   } catch (err) {
       console.error(err);
