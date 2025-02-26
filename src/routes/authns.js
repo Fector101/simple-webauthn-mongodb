@@ -56,11 +56,6 @@ router.post('/init-reg', async (req, res) => {
             
         })
         
-        student = getUserByaaguid(student?.aaguid)
-        console.log('Checking for aaguid and student obj ',student, '||', student?.aaguid)
-        if (student?.aaguid) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
-
-
         // Storing Information From Request
         res.cookie('regInfo',JSON.stringify({
             matric_no, 
@@ -116,7 +111,12 @@ router.post('/verify-reg', async (req, res) => {
         })
     
 
+        
+        
         if (verification.verified) {
+            const student = getUserByaaguid(verification?.aaguid)
+            console.log('Checking for aaguid and student obj ',student, '||', student?.aaguid)
+            if (student?.aaguid) return res.status(400).json({ already_reg_device: true,student_name:student.student_name||'Student' })
             // Store Student in DB
             const data_to_store = {
                 id: verification.registrationInfo.credential.id,
