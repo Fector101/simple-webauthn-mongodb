@@ -1,5 +1,5 @@
 
-async function loginUser(event) {
+async function loginAdmin(event) {
     event.preventDefault();
     const password = document.getElementById('password').value;
     try {
@@ -30,4 +30,4 @@ async function loginUser(event) {
       throw error;
     }
   }
-  
+document.querySelector('form').addEventListener('submit', loginAdmin);
