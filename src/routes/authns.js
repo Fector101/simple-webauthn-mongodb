@@ -17,7 +17,6 @@ const {
     updateUserCounter,
     getUserById,
     getUserByaaguid,
-    getAllStudents
   } = require("./../db")
   
 
@@ -307,19 +306,16 @@ router.post('/admin-login', async (req, res) => {
       // Check password
         const ps = process.env.ADMIN_PS || 'admin'
       const isMatch = password === ps
-      if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
-      
-      // Generate JWT token
-      const token = jwt.sign({ id: 'admin' }, ps, { expiresIn: '1h' });
-      
-      // You can also include user info (except password)
-      const studentsData = getAllStudents()
-      
-      res.json({ 
-        message: 'Login successful',
-        token, 
-        studentsData
-      });
+      if (isMatch) {
+        // Set cookie   
+        res.cookie('authenticated', 'true',
+            {httpOnly: true, maxAge: 50*1000, secure: true}
+        )
+
+        return res.json({ message: 'Login successful' });
+      }
+      return res.status(400).json({ error: 'Invalid credentials' });
+    
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Server error' });
