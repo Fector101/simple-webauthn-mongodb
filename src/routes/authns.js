@@ -24,13 +24,13 @@ const RP_ID = process.env.RP_ID || 'localhost'
 
 router.use(cookieParser())
 
-let data={}
+// let data={}
 
 router.post('/init-reg', async (req, res) => {
     try {
         const student_name = req.body.student_name || 'NSUK Student'
         const matric_no = req.body.matric_no || 'FT23CMP0001'
-        console.log(matric_no, ' matric_no')
+        console.log(matric_no, ' matric_no, student_name ', student_name)
 
         let student = getUserByMatricNo(matric_no)
         if (student) return res.status(400).json({ exists: true })
@@ -64,15 +64,9 @@ router.post('/init-reg', async (req, res) => {
             challenge: opts.challenge
         }), {httpOnly: true, maxAge: 50*1000, secure: true}
         )
-        data={
-            matric_no, 
-            userId: opts.user.id,
-            challenge: opts.challenge
-        }
+        
         console.log('-----------------------------------')
         console.log(opts, ' opts')
-        console.log('-----------------------------------')
-        console.log(opts.challenge, ' challenge')
         // await db.collection("users").doc(email).set({ challenge });
         res.json(opts)
 
@@ -101,17 +95,12 @@ router.post('/verify-reg', async (req, res) => {
     // }
 
 
-    console.log('data value ',data)
-    console.log('-------------------------------')
-    console.log('req matric_no ',req.body.matric_no)
     console.log('-------------------------------')
     console.log('req body ',req.body)
     console.log('-------------------------------')
-    console.log('req value ',req.body.registationJSON)
-    const body = req.body
-
     console.log('regInfo', regInfo)
     
+    const body = req.body
     try{
         const verification = await verifyRegistrationResponse({
             response: body.registationJSON,
