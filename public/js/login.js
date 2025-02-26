@@ -64,10 +64,10 @@ async function loginInWithfingerprint(e){
             // displayHint(JSON.stringify(initResponse))
             return
         }
-        else{
-            displayHint('Login Successful')
-            // redirect to dashboard page frm server with matric_no
-        }
+        // else{
+        //     displayHint('Login Successful')
+        //     // redirect to dashboard page frm server with matric_no
+        // }
         console.log(verifyResponse,'verification var')
             
         
