@@ -33,7 +33,8 @@ router.post('/init-reg', async (req, res) => {
         console.log(matric_no, ' matric_no, student_name ', student_name)
 
         let student = getUserByMatricNo(matric_no)
-        if (student) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
+        console.log('Checking for id and student obj ',student, '||', student.id)
+        if (student || student.id) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
 
         // let student = await Student.findOne({ matric_no })
         // if (student) return res.status(400).json({ exists: true })
@@ -54,8 +55,8 @@ router.post('/init-reg', async (req, res) => {
             
         })
         
-        student = getUserById(opts.user.id)
-        if (student) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
+        // student = getUserById(opts.user.id)
+        // if (student) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
 
 
         // Storing Information From Request
