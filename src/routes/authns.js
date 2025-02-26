@@ -123,6 +123,7 @@ router.post('/verify-reg', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
+            console.log('for degg', verification.registrationInfo.credential.publicKey)
             createUser(data_to_store.id, data_to_store.matric_no,data_to_store.student_name, passKey={
                 publicKey: data_to_store.publicKey,
                 counter: data_to_store.counter,
