@@ -154,10 +154,11 @@ router.post('/init-auth', async (req, res) => {
         console.log('From login route --------------------')
         const matric_no = req.body.matric_no || 'FT23CMP0001'
         console.log(matric_no, ' matric_no')
-
         let student = getUserByMatricNo(matric_no)
+        console.log(student, ' student')
         if (!student) return res.status(400).json({ exists: false })
-
+        console.log('reached here1-------------')
+            
         const opts = await generateAuthenticationOptions({
             rpID: RP_ID,
             allowCredentials: [

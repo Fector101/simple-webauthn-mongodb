@@ -25,8 +25,8 @@ async function loginInWithfingerprint(e){
             displayHint(JSON.stringify(initResponse))
             return
         }
-        else if(initResponse.exists){
-            displayHint('Student doesn\'t already exists')
+        else if(!initResponse.exists){
+            displayHint('Student doesn\'t exists')
             return
         }
         else if(initResponse.msg === 'xxx'){
@@ -34,6 +34,7 @@ async function loginInWithfingerprint(e){
             return
         }
 
+        console.log('Getting passkey')
         // Get passkey
         const authJSON =await startAuthentication(initResponse)
         
