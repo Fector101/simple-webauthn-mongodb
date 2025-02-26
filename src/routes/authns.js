@@ -115,7 +115,7 @@ router.post('/verify-reg', async (req, res) => {
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
                 // publicKey:verification.registrationInfo.credential.publicKey,
-                publicKey: body.publicKey,
+                publicKey: body.registrationInfo.response.publicKey,
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
@@ -155,7 +155,7 @@ router.post('/init-auth', async (req, res) => {
         const matric_no = req.body.matric_no || 'FT23CMP0001'
         console.log(matric_no, ' matric_no')
         let student = getUserByMatricNo(matric_no)
-        console.log(student, ' student')
+        console.log('student---| ',student)
         if (!student) return res.status(400).json({ exists: false })
             
         const opts = await generateAuthenticationOptions({
