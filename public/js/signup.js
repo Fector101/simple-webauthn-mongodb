@@ -46,6 +46,7 @@ async function signUpfingerprint(e){
             registationJSON =await startRegistration(initResponse)
         }catch(err){
             displayHint('This device is not supported authentication')
+            // displayHint(err)
             return
         }
         

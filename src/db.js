@@ -20,7 +20,9 @@
 // module.exports = connectToDatabase
 
 const USERS = []
-
+function getAllStudents(){
+  return USERS
+}
 function getUserByMatricNo(matric_no) {
   return USERS.find(user => user.matric_no === matric_no)
 }
@@ -47,6 +49,7 @@ module.exports = {
   getUserByMatricNo,
   getUserById,
   getUserByaaguid,
+  getAllStudents,
   createUser,
   updateUserCounter,
 }

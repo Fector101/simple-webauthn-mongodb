@@ -16,7 +16,8 @@ const {
     createUser,
     updateUserCounter,
     getUserById,
-    getUserByaaguid
+    getUserByaaguid,
+    getAllStudents
   } = require("./../db")
   
 
@@ -305,7 +306,7 @@ const authMiddleware = async (req, res, next) => {
       }
   
       // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin');
+      const decoded = jwt.verify(token, process.env.ADMIN_PS || 'admin');
       
       // Add user from payload
       req.user = await User.findById(decoded.id).select('-password');
@@ -322,31 +323,25 @@ const authMiddleware = async (req, res, next) => {
 
 router.post('/admin-login', async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { password } = req.body;
       
-      // Find user
-      const user = await User.findOne({ email });
-      if (!user) return res.status(400).json({ error: 'Invalid credentials' });
+    //   const user = await User.findOne({ email });
+      if (!password) return res.status(400).json({ error: 'Invalid credentials' });
       
       // Check password
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = password === (process.env.ADMIN_PS || 'admin')
       if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
       
       // Generate JWT token
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       
       // You can also include user info (except password)
-      const userData = {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role
-      };
+      const studentsData = getAllStudents()
       
       res.json({ 
         message: 'Login successful',
         token, 
-        user: userData
+        studentsData
       });
     } catch (err) {
       console.error(err);
@@ -360,7 +355,7 @@ try {
     // req.user is set by the middleware
     res.json({ 
     message: 'Welcome to admin dashboard', 
-    user: req.user 
+    user: req.user
     });
 } catch (err) {
     console.error(err);
