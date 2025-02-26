@@ -53,7 +53,7 @@ async function signUpfingerprint(e){
             displayHint(JSON.stringify(initResponse))
             return
         }
-        else if(initResponse.already_reg_device){
+        else if(verifyResponse.already_reg_device){
             displayHint(`already ${initResponse.student_name} device`)
             return
         }
