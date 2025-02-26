@@ -17,7 +17,10 @@ const authMiddleware = (req, res, next) => {
 
 
 function formatData(data) {
-  let formatted_data='<table> <tr> <th> Name </th> <th> Matric No </th> </tr>'
+  let formatted_data=`
+  <h1> Registered Students </h1>
+  <table>
+  <thead> <tr> <th> Name </th> <th> Matric No </th> </tr> </thead>`
   data.forEach((student) => {
     formatted_data += `<tr>
     <td>${student.name}</td>
