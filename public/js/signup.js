@@ -5,10 +5,15 @@ function displayHint(hint) {
 
 async function signUpfingerprint(e){
     e.preventDefault();
-    matric_no = document.querySelector('#matric').value
-    student_name = document.querySelector('#name').value
+    let matric_no = document.querySelector('#matric').value
+    let student_name = document.querySelector('#name').value
     try{
-
+        if(localStorage.getItem('matric_no')){
+            displayHint(`You are already registered with ${localStorage.getItem('matric_no')}`)
+            return
+        }
+        
+        
         // Get challenge from server, challenge is used to verify the response from the client
         const response = await fetch("/api/authn/init-reg", 
             {
@@ -22,7 +27,7 @@ async function signUpfingerprint(e){
         const initResponse = await response.json()
 
         if(initResponse.error){
-            displayHint(JSON.stringify(initResponse))
+            displayHint('Connection Timeout')
             return
         }
         
@@ -31,12 +36,18 @@ async function signUpfingerprint(e){
             return
         }
         else if(initResponse.msg === 'xxx'){
-            displayHint('This device is not supported authentication')
+            displayHint(JSON.stringify(initResponse))
             return
         }
 
         // Create passkey
-        const registationJSON =await startRegistration(initResponse)
+        let registationJSON;
+        try{
+            registationJSON =await startRegistration(initResponse)
+        }catch(err){
+            displayHint('This device is not supported authentication')
+            return
+        }
         
         console.log(registationJSON,'registationJSON var')
         
@@ -50,7 +61,8 @@ async function signUpfingerprint(e){
         const verifyResponse = await verify_response.json();
 
         if(verifyResponse.error){
-            displayHint(JSON.stringify(initResponse))
+            displayHint('Connection Timeout')
+            // displayHint(JSON.stringify(initResponse))
             return
         }
         else if(verifyResponse.already_reg_device){
@@ -59,6 +71,7 @@ async function signUpfingerprint(e){
         }
         else{
             displayHint('Student Registered successfully')
+            localStorage.setItem('matric_no',matric_no)
             // redirect to dashboard page frm server with matric_no
         }
         console.log(verifyResponse,'verification var')

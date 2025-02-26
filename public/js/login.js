@@ -22,7 +22,8 @@ async function loginInWithfingerprint(e){
         const initResponse = await response.json()
 
         if(initResponse.error){
-            displayHint(JSON.stringify(initResponse))
+            displayHint('Connection Timeout')
+            // displayHint('This device is not supported authentication')
             return
         }
         else if(initResponse.exists == false){
@@ -30,14 +31,20 @@ async function loginInWithfingerprint(e){
             return
         }
         else if(initResponse.msg === 'xxx'){
-            displayHint('This device is not supported authentication')
+            displayHint(JSON.stringify(initResponse))
             return
         }
 
         console.log('Getting passkey')
         // Get passkey
-        const authJSON =await startAuthentication(initResponse)
-        
+        let authJSON;
+        try{
+            authJSON =await startAuthentication(initResponse)
+        }
+        catch(err){
+            displayHint('This device is not supported authentication')
+            return
+        }
         console.log(authJSON,'authJSON var')
         
         // Verify passkey with DB
@@ -50,7 +57,8 @@ async function loginInWithfingerprint(e){
         const verifyResponse = await verify_response.json();
 
         if(verifyResponse.error){
-            displayHint(JSON.stringify(initResponse))
+            displayHint('Connection Timeout')
+            // displayHint(JSON.stringify(initResponse))
             return
         }
         else{
