@@ -9,23 +9,19 @@
 </head>
 <body>
     <div class="container">
-        <h2>Student Signup</h2>
+        <h2>Student Login</h2>
         <form method="POST">
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" value="William Smith" required>
-
             <label for="matric">Matric Number:</label>
             <input type="text" id="matric" name="matric-no" value="A123456">
 
             <label for="fingerprint">Fingerprint Authentication:</label>
-            <button type="submit" id="signupBtn">Register</button>
+            <button type="submit" id="loginBtn">Login</button>
             <p id="text"></p>
         </form>
         
-        <p>Already registered? 
-            <a href="/login">Login</a>
-        </p>
-        <p><a href="/admin-login">Admin Login</a></p>
+        <p>Not registered? 
+            <a href="/signup">Signup</a>
+        </p>        
     </div>
 </body>
 </html>
