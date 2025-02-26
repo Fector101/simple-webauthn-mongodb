@@ -9,7 +9,7 @@ async function signUpfingerprint(e){
     let student_name = document.querySelector('#name').value
     try{
         if(localStorage.getItem('gc1fab_matric_no')){
-            displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} already registered`)
+            displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
             return
         }
         
