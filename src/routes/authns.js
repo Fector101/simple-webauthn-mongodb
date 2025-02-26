@@ -260,7 +260,7 @@ router.post('/verify-auth', async (req, res) => {
                 counter: verification.authenticationInfo.newCounter,
                 deviceType: verification.authenticationInfo.credentialDeviceType,
                 backedUp: verification.authenticationInfo.credentialBackedUp,
-                transports:body.registationJSON.response.transports,
+                transports:body.authJSON.response.transports,
 
             }
             updateUserCounter(student.id,verification.authenticationInfo.newCounter)
