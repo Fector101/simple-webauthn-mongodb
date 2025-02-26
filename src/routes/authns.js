@@ -293,7 +293,8 @@ router.post('/verify-auth', async (req, res) => {
             res.clearCookie("authInfo")
             
             // Save Student in a session cookie
-            const token = jwt.sign({ id: student.id, username: req.body.student_name, matric_no }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ id: student.id, username: student.student_name, matric_no }, process.env.JWT_SECRET, { expiresIn: '1h' })
+            console.log('token ',token)
             res.cookie('userInfo', token, { httpOnly: true, secure: true, maxAge: 3600000 }); // 1 hour
             console.log('Good End of login route verify-auth--------------------')
             return res.json(data_to_store);

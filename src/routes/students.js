@@ -18,6 +18,11 @@ router.get('/dashboard',verifyToken, (req, res) => {
     const userInfo = req.cookies.userInfo
 
     console.log(userInfo,'|----|')
+    try{
+        console.log(userInfo.username,'|----|')
+    }catch(err){
+        console.log(err)
+    }
     console.log(req)
     res.clearCookie("userInfo")
 
