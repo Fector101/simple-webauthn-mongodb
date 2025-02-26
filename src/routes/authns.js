@@ -224,9 +224,10 @@ router.post('/verify-auth', async (req, res) => {
     }
     console.log('-------------------------------')
     const publicKeyBuffer = Buffer.from(student.passKey.publicKey, 'base64');
-    const idBufffer = Buffer.from(student.id, 'base64');
+    const idBuffer = Buffer.from(student.id, 'base64');
     console.log('-------------------------------')
     console.log('publicKeyBuffer', publicKeyBuffer)
+    console.log('idBuffer', idBuffer)
     console.log( new Uint8Array())
     try{
         const verification = await verifyAuthenticationResponse({
