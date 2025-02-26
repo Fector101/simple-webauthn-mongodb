@@ -5,6 +5,8 @@ const Student = require('../models/Student')
 const path = require('path')
 const crypto = require("crypto");
 const base64url = require("base64url");
+const cookieParser = require("cookie-parser")
+
 const router = express.Router()
 const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse} =require("@simplewebauthn/server")
 
@@ -22,6 +24,7 @@ const RP_ID = process.env.RP_ID || 'localhost'
 console.log(CLIENT_URL, ' CLIENT_URL from env.')
 console.log(RP_NAME, ' RP_NAME from env.')
 console.log(RP_ID, ' RP_ID from env.')
+router.use(cookieParser())
 // router.post('/signup', async (req, res) => {
     // try {
     //     const student_name = req.body['name']
@@ -129,6 +132,8 @@ router.post('/init-reg', async (req, res) => {
 })
 
 router.post('/verify-reg', async (req, res) => {
+
+    console.log(req.cookies, ' req.cookies')
     const regInfo = JSON.parse(req.cookies.regInfo)
     if (!regInfo) {
         return res.status(400).json({ error: "Authentication info not found" })
