@@ -26,11 +26,15 @@ function getUserByMatricNo(matric_no) {
 }
 
 function getUserById(id) {
-  console.log(USERS,'<--------- USERS')
   return USERS.find(user => user.id === id)
 }
 
-function createUser(id, matric_no,student_name, passKey) {
+function getUserByaaguid(aaguid) {
+  console.log(USERS,'<--------- USERS')
+  return USERS.find(user => user.aaguid === aaguid)
+}
+
+function createUser(id, matric_no,student_name,aaguid, passKey) {
   USERS.push({ id, matric_no,student_name, passKey })
 }
 
@@ -42,6 +46,7 @@ function updateUserCounter(id, counter) {
 module.exports = {
   getUserByMatricNo,
   getUserById,
+  getUserByaaguid,
   createUser,
   updateUserCounter,
 }

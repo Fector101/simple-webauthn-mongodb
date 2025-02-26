@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const base64url = require("base64url");
 const { isoBase64URL } = require('@simplewebauthn/server/helpers');
 const cookieParser = require("cookie-parser")
-
+// isoBase64URL.toUTF8String(base64url.toBuffer("dGVzdA=="))
 const router = express.Router()
 const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse, verifyAuthenticationResponse } =require("@simplewebauthn/server")
 
@@ -16,6 +16,7 @@ const {
     createUser,
     updateUserCounter,
     getUserById,
+    getUserByaaguid
   } = require("./../db")
   
 
@@ -43,6 +44,7 @@ router.post('/init-reg', async (req, res) => {
             rpID: RP_ID,
             userName: matric_no,
             userDisplayName: student_name,
+            attestationType:'direct',
             // authenticatorSelection: {userVerification: 'preferred' 
             // }
 
@@ -54,9 +56,9 @@ router.post('/init-reg', async (req, res) => {
             
         })
         
-        student = getUserById(opts.user.id)
-        console.log('Checking for id and student obj ',student, '||', student?.id)
-        if (student?.id) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
+        student = getUserByaaguid(student?.aaguid)
+        console.log('Checking for aaguid and student obj ',student, '||', student?.aaguid)
+        if (student?.aaguid) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
 
 
         // Storing Information From Request
@@ -128,12 +130,15 @@ router.post('/verify-reg', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
-            createUser(data_to_store.id, data_to_store.matric_no,data_to_store.student_name, passKey={
+            createUser(data_to_store.id, data_to_store.matric_no,data_to_store.student_name, 
+                aaguid= verification.attestationInfo.aaguid,
+                passKey={
                 publicKey: data_to_store.publicKey,
                 counter: data_to_store.counter,
                 deviceType: data_to_store.deviceType,
                 backedUp: data_to_store.backedUp,
-                transports: data_to_store.transports
+                transports: data_to_store.transports,
+
             })
             console.log(data_to_store, ' data_to_store')
             console.log(getUserByMatricNo(req.body.matric_no), ' getUserByMatricNo--')
