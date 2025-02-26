@@ -13,7 +13,7 @@ async function signUpfingerprint(e){
             {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ matric_no }),
+            body: JSON.stringify({ matric_no,student_name }),
             credentials: "include"
         })
 

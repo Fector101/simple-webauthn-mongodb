@@ -127,11 +127,12 @@ router.post('/verify-reg', async (req, res) => {
                 id: verification.registrationInfo.credential.id,
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
-                publicKey:verification.registrationInfo.credential.publicKey,
+                // publicKey:verification.registrationInfo.credential.publicKey,
+                publicKey: body.publicKey,
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
-                transports:body.registationJSON.transports,
+                transports:verification.registationJSON.transports,
             }
             createUser(data_to_store.id, data_to_store.matric_no, passKey={
                 publicKey: data_to_store.publicKey,
@@ -207,4 +208,4 @@ router.post('/admin-login', async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = router
