@@ -231,7 +231,7 @@ router.post('/verify-auth', async (req, res) => {
     console.log('publicKeyBuffer', publicKeyBuffer)
     console.log('idBuffer', idBuffer)
     try{
-        console.log('idBuffer',  new Uint8Array(idBuffer))
+        console.log('idBuffer 1 ',  new Uint8Array(isoBase64URL.toBase64(student.id)))
     }catch(err){console.log('idBuffer', err)}
     console.log('----------------------------')
     try{
