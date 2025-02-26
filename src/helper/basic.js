@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken')
 
 
 const verifyToken = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ error: 'Access denied' });
+    const userInfo = req.cookies.userInfo;
+    if (!userInfo) return res.status(401).json({ error: 'Access denied' });
 
     try {
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        const verified = jwt.verify(userInfo, process.env.JWT_SECRET);
+        console.log('What\'s in req ',req)
         req.user = verified;
         next();
     } catch (err) {
