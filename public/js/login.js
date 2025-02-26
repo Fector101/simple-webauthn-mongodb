@@ -25,7 +25,7 @@ async function loginInWithfingerprint(e){
             displayHint(JSON.stringify(initResponse))
             return
         }
-        else if(!initResponse.exists){
+        else if(initResponse.exists == false){
             displayHint('Student doesn\'t exists')
             return
         }
