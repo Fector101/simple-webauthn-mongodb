@@ -35,7 +35,7 @@ function getUserByaaguid(aaguid) {
 }
 
 function createUser(id, matric_no,student_name,aaguid, passKey) {
-  USERS.push({ id, matric_no,student_name, passKey })
+  USERS.push({ id, matric_no,aaguid,student_name, passKey })
 }
 
 function updateUserCounter(id, counter) {
