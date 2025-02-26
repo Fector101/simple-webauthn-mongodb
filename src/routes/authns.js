@@ -5,6 +5,7 @@ const Student = require('../models/Student')
 const path = require('path')
 const crypto = require("crypto");
 const base64url = require("base64url");
+const { isoBase64URL } = require('@simplewebauthn/server/helpers');
 const cookieParser = require("cookie-parser")
 
 const router = express.Router()
@@ -223,8 +224,9 @@ router.post('/verify-auth', async (req, res) => {
         return res.status(400).json({ error: "Invalid Student" })
     }
     console.log('-------------------------------')
-    const publicKeyBuffer = Buffer.from(student.passKey.publicKey, 'base64');
-    const idBuffer = Buffer.from(student.id, 'base64');
+    const publicKeyBuffer = isoBase64URL.encode(student.passKey.publicKey)
+    const idBuffer = isoBase64URL.encode(student.id)
+  
     console.log('-------------------------------')
     console.log('publicKeyBuffer', publicKeyBuffer)
     console.log('idBuffer', idBuffer)
