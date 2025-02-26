@@ -253,18 +253,17 @@ router.post('/verify-auth', async (req, res) => {
         if (verification.verified) {
             // Store Student in DB
             const data_to_store = {
-                id: verification.registrationInfo.credential.id,
+                id: verification.authenticationInfo.credentialID,
                 matric_no,
                 student_name: req.body.student_name,
-                // publicKey:verification.registrationInfo.credential.publicKey,
                 publicKey: body.publicKey,
-                counter: verification.registrationInfo.credential.counter,
-                deviceType: verification.registrationInfo.credentialDeviceType,
-                backedUp: verification.registrationInfo.credentialBackedUp,
+                counter: verification.authenticationInfo.newCounter,
+                deviceType: verification.authenticationInfo.credentialDeviceType,
+                backedUp: verification.authenticationInfo.credentialBackedUp,
                 transports:body.registationJSON.response.transports,
 
             }
-            updateUserCounter(student.id,verification.newCounter)
+            updateUserCounter(student.id,verification.authenticationInfo.newCounter)
             console.log('-------------------------------')
             console.log(data_to_store, ' data_to_store')
             console.log('-------------------------------')
