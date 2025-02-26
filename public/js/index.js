@@ -25,7 +25,7 @@ async function signUpfingerprint(e){
             return
         }
         else if(initResponse.exists){
-            displayHint('Student already exists')
+            displayHint(`${initResponse.student_name} already exists`)
             return
         }
         else if(initResponse.msg === 'xxx'){

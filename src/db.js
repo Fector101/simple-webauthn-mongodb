@@ -29,8 +29,8 @@ function getUserById(id) {
   return USERS.find(user => user.id === id)
 }
 
-function createUser(id, matric_no, passKey) {
-  USERS.push({ id, matric_no, passKey })
+function createUser(id, matric_no,student_name, passKey) {
+  USERS.push({ id, matric_no,student_name, passKey })
 }
 
 function updateUserCounter(id, counter) {

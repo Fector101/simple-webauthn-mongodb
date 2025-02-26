@@ -33,7 +33,7 @@ router.post('/init-reg', async (req, res) => {
         console.log(matric_no, ' matric_no, student_name ', student_name)
 
         let student = getUserByMatricNo(matric_no)
-        if (student) return res.status(400).json({ exists: true })
+        if (student) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
 
         // let student = await Student.findOne({ matric_no })
         // if (student) return res.status(400).json({ exists: true })
@@ -124,7 +124,7 @@ router.post('/verify-reg', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
-            createUser(data_to_store.id, data_to_store.matric_no, passKey={
+            createUser(data_to_store.id, data_to_store.matric_no,data_to_store.student_name, passKey={
                 publicKey: data_to_store.publicKey,
                 counter: data_to_store.counter,
                 deviceType: data_to_store.deviceType,
@@ -132,7 +132,7 @@ router.post('/verify-reg', async (req, res) => {
                 transports: data_to_store.transports
             })
             console.log(data_to_store, ' data_to_store')
-            console.log(getUserByMatricNo(req.body.matric_no), ' getUserByMatricNo(req.body.matric_no)')
+            console.log(getUserByMatricNo(req.body.matric_no), ' getUserByMatricNo--')
             res.clearCookie("regInfo")
 
             // createUser(id:'')
