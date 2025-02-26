@@ -296,7 +296,7 @@ router.post('/verify-auth', async (req, res) => {
             const token = jwt.sign({ id: student.id, username: req.body.student_name, matric_no }, process.env.JWT_SECRET, { expiresIn: '1h' });
             res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 3600000 }); // 1 hour
             console.log('Good End of login route verify-auth--------------------')
-            return res.redirect('/dashboard')
+            return res.json(data_to_store);
         }else{
             console.log('Error End of login route verify-auth--------------------')
             return res.status(400).json({ error: "Verification failed" })
