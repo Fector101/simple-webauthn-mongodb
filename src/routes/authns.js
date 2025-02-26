@@ -253,9 +253,9 @@ router.post('/verify-auth', async (req, res) => {
     // console.log('-------------------------------')
     // console.log('publicKeyBuffer', publicKeyBuffer)
     // console.log('idBuffer', idBuffer)
-    try{
-        console.log('idBuffer 1 ',  new Uint8Array(isoBase64URL.toBase64(student.id)))
-    }catch(err){console.log('idBuffer', err)}
+    // try{
+    //     console.log('idBuffer 1 ',  new Uint8Array(isoBase64URL.toBase64(student.id)))
+    // }catch(err){console.log('idBuffer', err)}
     console.log('----------------------------')
     try{
         const verification = await verifyAuthenticationResponse({
@@ -294,7 +294,7 @@ router.post('/verify-auth', async (req, res) => {
             
             // Save Student in a session cookie
             // const token = jwt.sign({ id: student.id, username: req.body.student_name, matric_no }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.cookie('userInfo', {'username':student.student_name}, { httpOnly: true, secure: true, maxAge: 3600000 }); // 1 hour
+            res.cookie('userInfo', JSON.stringify({'username':student.student_name}), { httpOnly: true, secure: true, maxAge: 3600000 }); // 1 hour
             console.log('Good End of login route verify-auth--------------------')
             return res.json(data_to_store);
         }else{
