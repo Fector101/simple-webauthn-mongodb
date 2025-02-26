@@ -140,7 +140,7 @@ router.post('/verify-reg', async (req, res) => {
                 transports: data_to_store.transports,
 
             })
-            console.log(data_to_store, ' data_to_store')
+            console.log(verification, ' verification ')
             console.log(getUserByMatricNo(req.body.matric_no), ' getUserByMatricNo--')
             res.clearCookie("regInfo")
 
