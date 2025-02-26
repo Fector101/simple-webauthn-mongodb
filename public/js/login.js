@@ -57,18 +57,18 @@ async function loginInWithfingerprint(e){
             body: JSON.stringify({authJSON, matric_no}),
             credentials: "include"
         })
-        const verifyResponse = await verify_response.json();
+        // const verifyResponse = await verify_response.json();
 
-        if(verifyResponse.error){
-            displayHint('Connection Timeout')
-            // displayHint(JSON.stringify(initResponse))
-            return
-        }
-        // else{
-        //     displayHint('Login Successful')
-        //     // redirect to dashboard page frm server with matric_no
+        // if(verifyResponse.error){
+        //     displayHint('Connection Timeout')
+        //     // displayHint(JSON.stringify(initResponse))
+        //     return
         // }
-        console.log(verifyResponse,'verification var')
+        // // else{
+        // //     displayHint('Login Successful')
+        // //     // redirect to dashboard page frm server with matric_no
+        // // }
+        // console.log(verifyResponse,'verification var')
             
         
     }
