@@ -15,7 +15,7 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/dashboard',verifyToken, (req, res) => {
-    const userInfo = JSON.parse(req.cookies.userInfo)
+    const userInfo = req.cookies.userInfo
 
     console.log(userInfo,'|----|')
     console.log(req)
