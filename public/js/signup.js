@@ -54,7 +54,7 @@ async function signUpfingerprint(e){
             return
         }
         else if(verifyResponse.already_reg_device){
-            displayHint(`already ${verifyResponse.student_name} device`)
+            displayHint(`${verifyResponse.student_name} device already registered`)
             return
         }
         else{
