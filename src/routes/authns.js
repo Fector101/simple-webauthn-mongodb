@@ -132,7 +132,7 @@ router.post('/verify-reg', async (req, res) => {
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
-                transports:body.response.transports,
+                transports:body.registationJSON.response.transports,
 
             }
             createUser(data_to_store.id, data_to_store.matric_no, passKey={
