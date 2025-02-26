@@ -17,15 +17,13 @@ router.get('/login', (req, res) => {
 router.get('/dashboard',verifyToken, (req, res) => {
     const userInfo = req.cookies.userInfo
 
-    console.log(userInfo,'|----|')
     try{
-        console.log(userInfo.username,'|----|')
+        console.log(JSON.parse(userInfo.username),'|----|')
     }catch(err){
         console.log(err)
     }
     console.log(req)
     res.clearCookie("userInfo")
-
     res.render('dashboard', { username: req.user.username });
 })
 
