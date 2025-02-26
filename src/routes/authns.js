@@ -224,8 +224,8 @@ router.post('/verify-auth', async (req, res) => {
         return res.status(400).json({ error: "Invalid Student" })
     }
     console.log('-------------------------------')
-    const publicKeyBuffer = isoBase64URL.encode(student.passKey.publicKey)
-    const idBuffer = isoBase64URL.encode(student.id)
+    const publicKeyBuffer = isoBase64URL.toBase64(student.passKey.publicKey)
+    const idBuffer = isoBase64URL.toBase64(student.id)
   
     console.log('-------------------------------')
     console.log('publicKeyBuffer', publicKeyBuffer)
