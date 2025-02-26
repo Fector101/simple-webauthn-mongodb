@@ -96,10 +96,8 @@ router.post('/verify-reg', async (req, res) => {
     // }
 
 
-    console.log('-------------------------------')
     console.log('req body ',req.body)
-    console.log('-------------------------------')
-    console.log('regInfo', regInfo)
+    // console.log('regInfo', regInfo)
     
     const body = req.body
     try{
@@ -114,6 +112,7 @@ router.post('/verify-reg', async (req, res) => {
         
         
         if (verification.verified) {
+            console.log(verification.registrationInfo?.credentialID, ' verification.credentialID')
             const student = getUserByaaguid(verification.registrationInfo?.aaguid)
             console.log('Checking for aaguid and student obj ',student, '||', student?.aaguid)
             if (student?.aaguid) return res.status(400).json({ already_reg_device: true,student_name:student.student_name||'Student' })
@@ -140,7 +139,6 @@ router.post('/verify-reg', async (req, res) => {
                 transports: data_to_store.transports,
 
             })
-            console.log(verification, ' verification ')
             console.log(getUserByMatricNo(req.body.matric_no), ' getUserByMatricNo--')
             res.clearCookie("regInfo")
 
@@ -293,6 +291,36 @@ router.post('/verify-auth', async (req, res) => {
         res.status(400).json({ error: 'Server error' })
     }
 })
+
+
+
+
+
+const authMiddleware = async (req, res, next) => {
+    try {
+      // Check for token in headers
+      const token = req.header('x-auth-token');
+      if (!token) {
+        return res.status(401).json({ error: 'No token, authorization denied' });
+      }
+  
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin');
+      
+      // Add user from payload
+      req.user = await User.findById(decoded.id).select('-password');
+      if (!req.user) {
+        return res.status(401).json({ error: 'User not found' });
+      }
+      
+      next();
+    } catch (err) {
+      res.status(401).json({ error: 'Token is not valid' });
+    }
+};
+
+
+
 
 router.post('/admin-login', async (req, res) => {
     try {
