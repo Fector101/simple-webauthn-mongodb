@@ -131,7 +131,7 @@ router.post('/verify-reg', async (req, res) => {
 
             }
             createUser(data_to_store.id, data_to_store.matric_no,data_to_store.student_name, 
-                aaguid= verification.attestationInfo.aaguid,
+                aaguid= verification.registrationInfo.aaguid,
                 passKey={
                 publicKey: data_to_store.publicKey,
                 counter: data_to_store.counter,
