@@ -57,7 +57,7 @@ async function loginInWithfingerprint(e){
             body: JSON.stringify({authJSON, matric_no}),
             credentials: "include"
         })
-        displayHint(JSON.stringify(await verify_response.json()))
+        displayHint(JSON.stringify(verify_response.json))
         // const verifyResponse = await verify_response.json();
 
         // if(verifyResponse.error){
