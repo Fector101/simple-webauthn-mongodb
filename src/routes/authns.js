@@ -329,11 +329,12 @@ router.post('/admin-login', async (req, res) => {
       if (!password) return res.status(400).json({ error: 'Invalid credentials' });
       
       // Check password
-      const isMatch = password === (process.env.ADMIN_PS || 'admin')
+        const ps = process.env.ADMIN_PS || 'admin'
+      const isMatch = password === ps
       if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
       
       // Generate JWT token
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
       
       // You can also include user info (except password)
       const studentsData = getAllStudents()
