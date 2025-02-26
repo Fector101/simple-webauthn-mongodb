@@ -21,38 +21,14 @@ const {
 const CLIENT_URL =  process.env.CLIENT_URL || 'http://localhost:3000'
 const RP_NAME = process.env.RP_NAME || 'Clean Kohl'
 const RP_ID = process.env.RP_ID || 'localhost'
-console.log(CLIENT_URL, ' CLIENT_URL from env.')
-console.log(RP_NAME, ' RP_NAME from env.')
-console.log(RP_ID, ' RP_ID from env.')
+
 router.use(cookieParser())
-// router.post('/signup', async (req, res) => {
-    // try {
-    //     const student_name = req.body['name']
-    //     const matric_no = req.body['matric-no']
-
-    //     let user = await User.findOne({ matric_no })
-    //     if (user) return res.status(400).json({ error: 'Student already exists' })
-
-    //     // Get fingerprint data
-    //     // const hashedPassword = await bcrypt.hash(password, 10)
-
-    //     // user = new User({ matric_no, matric_no, password: hashedPassword })
-    //     user = new User({ student_name, matric_no })
-    //     await user.save()
-
-    //     res.status(201).json({ message: 'Student registered successfully' })
-    // } catch (err) {
-    //     console.log('signup error: ', err)
-    //     res.status(500).json({ error: 'Server error' })
-    // }
-// })
-
 
 let data={}
 
 router.post('/init-reg', async (req, res) => {
     try {
-        const student_name = req.body['name'] || 'Fabian'
+        const student_name = req.body.student_name || 'NSUK Student'
         const matric_no = req.body.matric_no || 'FT23CMP0001'
         console.log(matric_no, ' matric_no')
 
@@ -88,26 +64,6 @@ router.post('/init-reg', async (req, res) => {
             challenge: opts.challenge
         }), {httpOnly: true, maxAge: 50*1000, secure: true}
         )
-        // const publicKeyCredentialCreationOptions = {
-        //     challenge,
-        //     rp: {
-        //         name: "Duo Security",
-        //         // id: "duosecurity.com",
-        //     },
-        //     user: {
-        //         id: userId,
-        //         name: "lee@webauthn.guide",
-        //         displayName: "Lee",
-        //     },
-        //     pubKeyCredParams: [{alg: -7, type: "public-key"}],
-        //     authenticatorSelection: {
-        //         authenticatorAttachment: "platform",
-        //         userVerification: "preferred" 
-        //     },
-        //     timeout: 60000,
-        //     attestation: "direct"
-        //     };
-        
         data={
             matric_no, 
             userId: opts.user.id,
