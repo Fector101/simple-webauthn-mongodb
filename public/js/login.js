@@ -8,7 +8,10 @@ async function loginInWithfingerprint(e){
     matric_no = document.querySelector('#matric').value
     console.log(matric_no)
     try{
-
+        if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
+            displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
+            return
+        }
         // Get challenge from server, challenge is used to verify the response from the client
         const response = await fetch("/api/authn/init-auth", 
             {

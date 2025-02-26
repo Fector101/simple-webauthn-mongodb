@@ -8,8 +8,8 @@ async function signUpfingerprint(e){
     let matric_no = document.querySelector('#matric').value
     let student_name = document.querySelector('#name').value
     try{
-        if(localStorage.getItem('matric_no')){
-            displayHint(`You are already registered with ${localStorage.getItem('matric_no')}`)
+        if(localStorage.getItem('gc1fab_matric_no')){
+            displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} already registered`)
             return
         }
         
@@ -71,7 +71,8 @@ async function signUpfingerprint(e){
         }
         else{
             displayHint('Student Registered successfully')
-            localStorage.setItem('matric_no',matric_no)
+            localStorage.setItem('gc1fab_matric_no',matric_no)
+            localStorage.setItem('gc1fab_stuname',verifyResponse.student_name)
             // redirect to dashboard page frm server with matric_no
         }
         console.log(verifyResponse,'verification var')
