@@ -306,10 +306,10 @@ const authMiddleware = async (req, res, next) => {
       }
   
       // Verify token
-      const decoded = jwt.verify(token, process.env.ADMIN_PS || 'admin');
+    //   const decoded = jwt.verify(token, process.env.ADMIN_PS || 'admin');
       
       // Add user from payload
-      console.log(await decoded.id ,'stain ')
+    //   console.log(await decoded.id ,'stain ')
       req.user = 'admin'
       if (!req.user) {
         return res.status(401).json({ error: 'User not found' });
