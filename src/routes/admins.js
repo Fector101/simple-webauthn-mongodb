@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser")
 const User = require('../models/Student');
 
 const { getAllStudents } = require("./../db")
@@ -18,6 +19,7 @@ const authMiddleware = (req, res, next) => {
 
 
 const router = express.Router();
+router.use(cookieParser())
 
 // router.get('/admin-dashboard', async (req, res) => {
 //     try {
