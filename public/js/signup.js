@@ -25,12 +25,12 @@ async function signUpfingerprint(e){
             displayHint(JSON.stringify(initResponse))
             return
         }
-        else if(initResponse.exists){
-            displayHint(`${initResponse.student_name} already exists`)
-            return
-        }
         else if(initResponse.already_reg_device){
             displayHint(`already ${initResponse.student_name} device`)
+            return
+        }
+        else if(initResponse.exists){
+            displayHint(`${initResponse.student_name} already exists`)
             return
         }
         else if(initResponse.msg === 'xxx'){
