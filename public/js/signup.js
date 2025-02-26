@@ -13,7 +13,7 @@ async function signUpfingerprint(e){
                 {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ matric_no }),
+                body: JSON.stringify({ "matric_no":localStorage.getItem('gc1fab_matric_no') }),
                 credentials: "include"
             })
             const res_ = await is_stud_response.json()
