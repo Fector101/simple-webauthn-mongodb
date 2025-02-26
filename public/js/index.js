@@ -89,7 +89,7 @@ async function loginInWithfingerprint(e){
             return
         }
         else if(initResponse.exists){
-            displayHint(`${initResponse.student_name} already exists`)
+            displayHint('Student doesn\'t already exists')
             return
         }
         else if(initResponse.msg === 'xxx'){
@@ -97,16 +97,16 @@ async function loginInWithfingerprint(e){
             return
         }
 
-        // Create passkey
+        // Get passkey
         const authJSON =await startAuthentication(initResponse)
         
-        console.log(registationJSON,'authJSON var')
+        console.log(authJSON,'authJSON var')
         
-        // Save and verify passkey with server
+        // Verify passkey with DB
         const verify_response = await fetch("/api/authn/verify-auth", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({registationJSON, matric_no,student_name}),
+            body: JSON.stringify({authJSON, matric_no,student_name}),
             credentials: "include"
         })
         const verifyResponse = await verify_response.json();
@@ -116,7 +116,7 @@ async function loginInWithfingerprint(e){
             return
         }
         else{
-            // displayHint('Successfully Marked')
+            displayHint('Login Successful')
             // redirect to dashboard page frm server with matric_no
         }
         console.log(verifyResponse,'verification var')

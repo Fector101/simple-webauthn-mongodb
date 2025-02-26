@@ -8,7 +8,7 @@ const base64url = require("base64url");
 const cookieParser = require("cookie-parser")
 
 const router = express.Router()
-const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse} =require("@simplewebauthn/server")
+const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse, verifyAuthenticationResponse } =require("@simplewebauthn/server")
 
 const {
     getUserByMatricNo,
@@ -24,7 +24,6 @@ const RP_ID = process.env.RP_ID || 'localhost'
 
 router.use(cookieParser())
 
-// let data={}
 
 router.post('/init-reg', async (req, res) => {
     try {
@@ -57,7 +56,6 @@ router.post('/init-reg', async (req, res) => {
 
 
         // Storing Information From Request
-
         res.cookie('regInfo',JSON.stringify({
             matric_no, 
             userId: opts.user.id,
@@ -148,31 +146,127 @@ router.post('/verify-reg', async (req, res) => {
         console.log('verification error: ', err)
         res.status(400).json({ error: 'Server error' })
     }
-
-
 })
 
 
-router.post('/login', async (req, res) => {
+router.post('/init-auth', async (req, res) => {
     try {
-        const { username, password } = req.body
-        console.log(username, password)
+        console.log('From login route --------------------')
+        const matric_no = req.body.matric_no || 'FT23CMP0001'
+        console.log(matric_no, ' matric_no')
 
-        const user = await User.findOne({ username })
-        console.log(user, ' user')
-        if (!user) return res.status(400).json({ error: 'Student doesn\'t exist' })
+        let student = getUserByMatricNo(matric_no)
+        if (!student) return res.status(400).json({ exists: false })
+
+        const opts = await generateAuthenticationOptions({
+            rpID: RP_ID,
+            allowCredentials: [
+                {
+                    id: student.id,
+                    type: 'public-key',
+                    transports: user.passKey.transports
+                }
+            ]
+        })
+        
+
+        res.cookie('authInfo',JSON.stringify({
+            matric_no, 
+            userId: opts.user.id,
+            challenge: opts.challenge
+        }), {httpOnly: true, maxAge: 50*1000, secure: true}
+        )
+
+        res.json(opts)
+
+        // const user = await User.findOne({ username })
+        // console.log(user, ' user')
 
 
-        const isMatch = await bcrypt.compare(password, user.password)
-        if (!isMatch) return res.status(400).json({ error: 'Invalid password' })
+        // const isMatch = await bcrypt.compare(password, user.password)
+        // if (!isMatch) return res.status(400).json({ error: 'Invalid password' })
 
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-        res.json({ message: 'Login successful', token })
+        // res.json({ message: 'Login successful', token })
     } catch (err) {
         console.log('login error: ', err)
         res.status(500).json({ error: 'Server error' })
+    }
+})
+
+
+
+router.post('/verify-auth', async (req, res) => {
+    console.log('From login route verify-auth--------------------')
+    
+    const authInfo = JSON.parse(req.cookies.authInfo)
+    if (!authInfo) {
+        return res.status(400).json({ error: "Authentication info not found" })
+      }
+    
+    console.log('-------------------------------')
+    const body = req.body
+    const matric_no = body.matric_no
+    console.log('req body ',body)
+    console.log('-------------------------------')
+    console.log('authInfo', authInfo)
+    console.log('-------------------------------')
+    
+    const user = getUserById(authInfo.userId)
+    console.log('user-----| ', user)
+    if ( user || user.id != req.body.id) {
+        return res.status(400).json({ error: "Invalid user" })
+    }
+    try{
+        const verification = await verifyAuthenticationResponse({
+            response: body.authJSON,
+            expectedChallenge: authInfo.challenge,
+            expectedOrigin: CLIENT_URL,
+            expectedRPID: RP_ID,
+            credential: {
+                id: user.id,
+                publicKey: user.passKey.publicKey,
+                counter: user.passKey.counter,
+                transports: user.passKey.transports
+            }
+        })
+    
+
+        if (verification.verified) {
+            // Store Student in DB
+            const data_to_store = {
+                id: verification.registrationInfo.credential.id,
+                matric_no,
+                student_name: req.body.student_name,
+                // publicKey:verification.registrationInfo.credential.publicKey,
+                publicKey: body.publicKey,
+                counter: verification.registrationInfo.credential.counter,
+                deviceType: verification.registrationInfo.credentialDeviceType,
+                backedUp: verification.registrationInfo.credentialBackedUp,
+                transports:body.registationJSON.response.transports,
+
+            }
+            updateUserCounter(user.id,verification.newCounter)
+            console.log('-------------------------------')
+            console.log(data_to_store, ' data_to_store')
+            console.log('-------------------------------')
+            console.log(getUserByMatricNo(matric_no), ' getUserByMatricNo--')
+            res.clearCookie("authInfo")
+            // Save Student in a session cookie
+
+            res.json(data_to_store);
+            console.log('Good End of login route verify-auth--------------------')
+        }else{
+            console.log('Error End of login route verify-auth--------------------')
+            return res.status(400).json({ error: "Verification failed" })
+        }
+
+
+    }catch(err){
+        console.log('verification error: ', err)
+        res.status(400).json({ error: 'Server error' })
     }
 })
 
