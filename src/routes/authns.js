@@ -54,6 +54,8 @@ router.post('/init-reg', async (req, res) => {
             
         })
         
+        student = getUserById(opts.user.id)
+        if (student) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
 
 
         // Storing Information From Request
@@ -63,6 +65,8 @@ router.post('/init-reg', async (req, res) => {
             challenge: opts.challenge
         }), {httpOnly: true, maxAge: 50*1000, secure: true}
         )
+
+
         
         console.log('-----------------------------------')
         console.log(opts, ' opts')
@@ -123,7 +127,6 @@ router.post('/verify-reg', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
-            console.log('for degg', verification.registrationInfo.credential.publicKey)
             createUser(data_to_store.id, data_to_store.matric_no,data_to_store.student_name, passKey={
                 publicKey: data_to_store.publicKey,
                 counter: data_to_store.counter,
