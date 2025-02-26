@@ -15,6 +15,12 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/dashboard',verifyToken, (req, res) => {
+    const userInfo = JSON.parse(req.cookies.userInfo)
+
+    console.log(userInfo,'|----|')
+    console.log(req)
+    res.clearCookie("userInfo")
+
     res.render('dashboard', { username: req.user.username });
 })
 
