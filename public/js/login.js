@@ -44,7 +44,7 @@ async function loginInWithfingerprint(e){
         const verify_response = await fetch("/api/authn/verify-auth", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({authJSON, matric_no,student_name}),
+            body: JSON.stringify({authJSON, matric_no}),
             credentials: "include"
         })
         const verifyResponse = await verify_response.json();
