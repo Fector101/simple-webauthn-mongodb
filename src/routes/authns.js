@@ -115,7 +115,7 @@ router.post('/verify-reg', async (req, res) => {
     try{
         const verification = await verifyRegistrationResponse({
             response: body.registationJSON,
-            expectedChallenge: data.challenge,
+            expectedChallenge: regInfo.challenge,
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
         })
