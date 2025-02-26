@@ -320,28 +320,52 @@ const authMiddleware = async (req, res, next) => {
 };
 
 
-
-
 router.post('/admin-login', async (req, res) => {
     try {
-        const { email, password } = req.body;
-
-        // Find user
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ error: 'Invalid credentials' });
-
-        // Check password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
-
-        // Generate JWT token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.json({ message: 'Login successful', token });
+      const { email, password } = req.body;
+      
+      // Find user
+      const user = await User.findOne({ email });
+      if (!user) return res.status(400).json({ error: 'Invalid credentials' });
+      
+      // Check password
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
+      
+      // Generate JWT token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      
+      // You can also include user info (except password)
+      const userData = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      };
+      
+      res.json({ 
+        message: 'Login successful',
+        token, 
+        user: userData
+      });
     } catch (err) {
-        res.status(500).json({ error: 'Server error' });
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
     }
 });
 
+// 3. Protected Route Example
+router.get('/admin-dashboard', authMiddleware, async (req, res) => {
+try {
+    // req.user is set by the middleware
+    res.json({ 
+    message: 'Welcome to admin dashboard', 
+    user: req.user 
+    });
+} catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+}
+});
 
 module.exports = router
