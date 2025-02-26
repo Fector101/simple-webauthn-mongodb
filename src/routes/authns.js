@@ -217,7 +217,7 @@ router.post('/verify-auth', async (req, res) => {
     
     const student = getUserById(authInfo.userId)
     console.log('student-----| ', student)
-    if ( student || student.id != req.body.id) {
+    if ( student || student.id != body.authJSON.id) {
         return res.status(400).json({ error: "Invalid Student" })
     }
     try{
