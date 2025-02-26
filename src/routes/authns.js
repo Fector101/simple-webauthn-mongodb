@@ -165,7 +165,7 @@ router.post('/init-auth', async (req, res) => {
                 {
                     id: student.id,
                     type: 'public-key',
-                    transports: user.passKey.transports
+                    transports: student.passKey.transports
                 }
             ]
         })
@@ -215,10 +215,10 @@ router.post('/verify-auth', async (req, res) => {
     console.log('authInfo', authInfo)
     console.log('-------------------------------')
     
-    const user = getUserById(authInfo.userId)
-    console.log('user-----| ', user)
-    if ( user || user.id != req.body.id) {
-        return res.status(400).json({ error: "Invalid user" })
+    const student = getUserById(authInfo.userId)
+    console.log('student-----| ', student)
+    if ( student || student.id != req.body.id) {
+        return res.status(400).json({ error: "Invalid Student" })
     }
     try{
         const verification = await verifyAuthenticationResponse({
