@@ -114,7 +114,7 @@ router.post('/verify-reg', async (req, res) => {
         
         
         if (verification.verified) {
-            const student = getUserByaaguid(verification?.aaguid)
+            const student = getUserByaaguid(verification.registrationInfo?.aaguid)
             console.log('Checking for aaguid and student obj ',student, '||', student?.aaguid)
             if (student?.aaguid) return res.status(400).json({ already_reg_device: true,student_name:student.student_name||'Student' })
             // Store Student in DB
