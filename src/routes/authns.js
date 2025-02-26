@@ -359,6 +359,7 @@ try {
     message: 'Welcome to admin dashboard', 
     user: req.user
     });
+    
 } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
