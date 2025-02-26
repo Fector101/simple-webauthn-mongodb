@@ -1,4 +1,4 @@
-const { startRegistration, start} = SimpleWebAuthnBrowser;
+const { startRegistration,startAuthentication} = SimpleWebAuthnBrowser;
 function displayHint(hint) {
     document.querySelector('#text').innerText = hint
 }
@@ -54,32 +54,30 @@ async function signUpfingerprint(e){
         }
         else{
             displayHint('Student Registered successfully')
-            // displayHint('Student Registered successfully')
-            // redirect to login page frm server with matric_no
+            // redirect to dashboard page frm server with matric_no
         }
         console.log(verifyResponse,'verification var')
             
         
-}
-catch(err){
-document.querySelector('#text').innerText = err;
-    
-}
+    }
+    catch(err){
+    document.querySelector('#text').innerText = err;
+        
+    }
 }
 
 
 async function loginInWithfingerprint(e){
     e.preventDefault();
     matric_no = document.querySelector('#matric').value
-    student_name = document.querySelector('#name').value
     try{
 
         // Get challenge from server, challenge is used to verify the response from the client
-        const response = await fetch("/api/authn/init-reg", 
+        const response = await fetch("/api/authn/init-auth", 
             {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ matric_no,student_name }),
+            body: JSON.stringify({ matric_no}),
             credentials: "include"
         })
 
@@ -100,12 +98,12 @@ async function loginInWithfingerprint(e){
         }
 
         // Create passkey
-        const registationJSON =await startRegistration(initResponse)
+        const authJSON =await startAuthentication(initResponse)
         
-        console.log(registationJSON,'registationJSON var')
+        console.log(registationJSON,'authJSON var')
         
         // Save and verify passkey with server
-        const verify_response = await fetch("/api/authn/verify-reg", {
+        const verify_response = await fetch("/api/authn/verify-auth", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({registationJSON, matric_no,student_name}),
@@ -118,18 +116,16 @@ async function loginInWithfingerprint(e){
             return
         }
         else{
-            displayHint('Student Registered successfully')
-            // displayHint('Student Registered successfully')
-            // redirect to login page frm server with matric_no
+            // displayHint('Successfully Marked')
+            // redirect to dashboard page frm server with matric_no
         }
         console.log(verifyResponse,'verification var')
             
         
-}
-catch(err){
-document.querySelector('#text').innerText = err;
-    
-}
+    }
+    catch(err){
+    document.querySelector('#text').innerText = err;
+    }
 }
 
 document.querySelector('#signupBtn').addEventListener('click', loginInWithfingerprint);
