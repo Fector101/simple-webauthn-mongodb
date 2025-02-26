@@ -224,13 +224,16 @@ router.post('/verify-auth', async (req, res) => {
         return res.status(400).json({ error: "Invalid Student" })
     }
     console.log('-------------------------------')
-    const publicKeyBuffer = isoBase64URL.toBase64(student.passKey.publicKey)
-    const idBuffer = isoBase64URL.toBase64(student.id)
+    const publicKeyBuffer = isoBase64URL.toBuffer(student.passKey.publicKey)
+    const idBuffer = isoBase64URL.toBuffer(student.id)
   
     console.log('-------------------------------')
     console.log('publicKeyBuffer', publicKeyBuffer)
     console.log('idBuffer', idBuffer)
-    console.log('idBuffer',  new Uint8Array(idBuffer))
+    try{
+        console.log('idBuffer',  new Uint8Array(idBuffer))
+    }catch(err){console.log('idBuffer', err)}
+    console.log('----------------------------')
     try{
         const verification = await verifyAuthenticationResponse({
             response: body.authJSON,
@@ -238,8 +241,8 @@ router.post('/verify-auth', async (req, res) => {
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
             credential: {
-                id: new Uint8Array(idBuffer),
-                publicKey: new Uint8Array(publicKeyBuffer),
+                id:idBuffer,
+                publicKey: publicKeyBuffer,
                 counter: student.passKey.counter,
                 transports: student.passKey.transports
             }
