@@ -228,7 +228,6 @@ router.post('/verify-auth', async (req, res) => {
     console.log('-------------------------------')
     console.log('publicKeyBuffer', publicKeyBuffer)
     console.log('idBuffer', idBuffer)
-    console.log( new Uint8Array())
     try{
         const verification = await verifyAuthenticationResponse({
             response: body.authJSON,
