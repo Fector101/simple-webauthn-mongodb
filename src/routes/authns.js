@@ -115,8 +115,8 @@ router.post('/verify-reg', async (req, res) => {
                 id: verification.registrationInfo.credential.id,
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
-                // publicKey:verification.registrationInfo.credential.publicKey,
-                publicKey: body.registationJSON.response.publicKey,
+                publicKey:verification.registrationInfo.credential.publicKey,
+                // publicKey: body.registationJSON.response.publicKey,
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
@@ -225,12 +225,12 @@ router.post('/verify-auth', async (req, res) => {
         return res.status(400).json({ error: "Invalid Student" })
     }
     console.log('-------------------------------')
-    const publicKeyBuffer = isoBase64URL.toBuffer(student.passKey.publicKey)
-    const idBuffer = isoBase64URL.toBuffer(student.id)
+    // const publicKeyBuffer = isoBase64URL.toBuffer(student.passKey.publicKey)
+    // const idBuffer = isoBase64URL.toBuffer(student.id)
   
-    console.log('-------------------------------')
-    console.log('publicKeyBuffer', publicKeyBuffer)
-    console.log('idBuffer', idBuffer)
+    // console.log('-------------------------------')
+    // console.log('publicKeyBuffer', publicKeyBuffer)
+    // console.log('idBuffer', idBuffer)
     try{
         console.log('idBuffer 1 ',  new Uint8Array(isoBase64URL.toBase64(student.id)))
     }catch(err){console.log('idBuffer', err)}
@@ -242,8 +242,8 @@ router.post('/verify-auth', async (req, res) => {
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
             credential: {
-                id:idBuffer,
-                publicKey: publicKeyBuffer,
+                id:student.id,
+                publicKey: student.passKey.publicKey,
                 counter: student.passKey.counter,
                 transports: student.passKey.transports
             }
