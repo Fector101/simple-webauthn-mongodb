@@ -26,6 +26,7 @@ function getUserByMatricNo(matric_no) {
 }
 
 function getUserById(id) {
+  console.log(USERS,'<--------- USERS')
   return USERS.find(user => user.id === id)
 }
 
