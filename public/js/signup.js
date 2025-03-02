@@ -87,7 +87,7 @@ async function signUpfingerprint(e){
             displayHint('Student Registered successfully')
             localStorage.setItem('gc1fab_matric_no',matric_no)
             localStorage.setItem('gc1fab_stuname',verifyResponse.student_name)
-            // redirect to dashboard page frm server with matric_no
+            window.location.href = '/dashboard'
         }
         console.log(verifyResponse,'verification var')
             

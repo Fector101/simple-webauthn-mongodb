@@ -160,6 +160,11 @@ router.post('/verify-reg', async (req, res) => {
             // createUser(id:'')
             // user = new User(data_to_store)
             // await user.save()
+
+            // Save Student in a session cookie
+            const token = jwt.sign({ id: data_to_store.id, username: data_to_store.student_name, matric_no:req.body.matric_no }, process.env.JWT_SECRET, { expiresIn: '1h' })
+            console.log('token ',token)
+            res.cookie('userInfo', token, { httpOnly: true, secure: true, maxAge: 3600000 })
             res.json(data_to_store);
         }else{
             return res.status(400).json({ error: "Verification failed" })

@@ -23,7 +23,6 @@ router.get('/dashboard',verifyToken, (req, res) => {
         console.log(err)
     }
     console.log(req)
-    // res.clearCookie("userInfo")
     res.render('dashboard', { username: req.user.username });
 })
 
