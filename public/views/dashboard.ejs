@@ -11,7 +11,9 @@
         <p>Welcome, <span id="studentName"><%= username %>!</span></p>
         <button class="markattendace">Mark Attendance</button>
         <p id="attendanceMessage"></p>
-        <a href="/api/authn/logout">Logout</a>
+   <form action="/api/authn/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
     </div>
 </body>
 </html>
