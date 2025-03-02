@@ -22,3 +22,14 @@ p {
     font-weight: bold;
     color: #28a745;
 }
+form button {
+    background: transparent;
+    text-decoration: underline;
+    color:blue;
+}
+
+form button:hover {
+    background: transparent;
+    color:red;
+    text-decoration: underline;
+}
