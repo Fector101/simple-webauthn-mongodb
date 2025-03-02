@@ -29,7 +29,7 @@ router.use(cookieParser())
 
 router.post('/is-student', async (req, res) => {
     try{
-        const matric_no = req.body.matric_no || 'FT23CMP0001'
+        const matric_no = req.body.matric_no
         let student = getUserByMatricNo(matric_no)
         if (student){
             return res.status(200).json({ exists: true})}
@@ -44,12 +44,12 @@ router.post('/is-student', async (req, res) => {
 })
 router.post('/init-reg', async (req, res) => {
     try {
-        const student_name = req.body.student_name || 'NSUK Student'
-        const matric_no = req.body.matric_no || 'FT23CMP0001'
+        const student_name = req.body.student_name
+        const matric_no = req.body.matric_no
         console.log(matric_no, ' matric_no, student_name ', student_name)
 
         let student = getUserByMatricNo(matric_no)
-        if (student) return res.status(400).json({ exists: true,student_name:student.student_name||'Student' })
+        if (student) return res.status(400).json({ exists: true,student_name:student.student_name})
 
         // let student = await Student.findOne({ matric_no })
         // if (student) return res.status(400).json({ exists: true })
@@ -130,7 +130,7 @@ router.post('/verify-reg', async (req, res) => {
             console.log(verification.registrationInfo.credential.id, ' verification.credential.id')
             const student = getUserByaaguid(verification.registrationInfo?.aaguid)
             console.log('Checking for aaguid and student obj ',student, '||', student?.aaguid)
-            if (student?.aaguid) return res.status(400).json({ already_reg_device: true,student_name:student.student_name||'Student' })
+            if (student?.aaguid) return res.status(400).json({ already_reg_device: true,student_name:student.student_name})
             // Store Student in DB
             const data_to_store = {
                 id: verification.registrationInfo.credential.id,
@@ -176,7 +176,7 @@ router.post('/verify-reg', async (req, res) => {
 router.post('/init-auth', async (req, res) => {
     try {
         console.log('From login route --------------------')
-        const matric_no = req.body.matric_no || 'FT23CMP0001'
+        const matric_no = req.body.matric_no
         console.log(matric_no, ' matric_no')
         let student = getUserByMatricNo(matric_no)
         console.log('student---| ',student)
