@@ -111,7 +111,7 @@ router.post('/verify-reg', async (req, res) => {
     // }
 
 
-    console.log('req body ',req.body)
+    // console.log('req body ',req.body)
     // console.log('regInfo', regInfo)
     
     const body = req.body
