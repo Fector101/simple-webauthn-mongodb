@@ -26,6 +26,7 @@ form button {
     background: transparent;
     text-decoration: underline;
     color:blue;
+    border:none;
 }
 
 form button:hover {
