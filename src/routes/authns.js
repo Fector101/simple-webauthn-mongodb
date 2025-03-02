@@ -310,7 +310,7 @@ router.post('/verify-auth', async (req, res) => {
     }
 })
 
-app.post("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
     res.clearCookie("userInfo", { httpOnly: true, secure: process.env.NODE_ENV === "production" });
     res.redirect("/signup");
 });
