@@ -16,7 +16,7 @@ async function loginInWithfingerprint(e){
                 body: JSON.stringify({ "matric_no":localStorage.getItem('gc1fab_matric_no') }),
                 credentials: "include"
             })
-            const res_ = await is_stud_response.json()
+            const res_ =await is_stud_response.json()
             if(res_.exists && !res_.error){
                 displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
                 return
