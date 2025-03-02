@@ -9,8 +9,18 @@ async function loginInWithfingerprint(e){
     console.log(matric_no)
     try{
         if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
-            displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
-            return
+            const is_stud_response = await fetch("/api/authn/is-student", 
+                {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "matric_no":localStorage.getItem('gc1fab_matric_no') }),
+                credentials: "include"
+            })
+            const res_ = await is_stud_response.json()
+            if(res_.exists && !res_.error){
+                displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
+                return
+            }
         }
         // Get challenge from server, challenge is used to verify the response from the client
         const response = await fetch("/api/authn/init-auth", 
