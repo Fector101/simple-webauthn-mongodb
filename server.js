@@ -23,7 +23,6 @@ app.use(cors())
 // Connect to MongoDB
 // connectDB()
 
-
 // Routes
 app.use('/', studentRoutes)
 app.use('/', adminRoutes)
