@@ -8,6 +8,7 @@
 <body>
     <div class="container">
         <h2>Student Dashboard</h2>
+<span id="matno" style="display:none;"><%= matric_no %>!</span>
         <p>Welcome, <span id="studentName"><%= username %>!</span></p>
         <button class="markattendace">Mark Attendance</button>
         <p id="attendanceMessage"></p>
@@ -15,5 +16,28 @@
         <button type="submit">Logout</button>
     </form>
     </div>
+
+
+
+<script>
+        document.querySelector('form button').addEventListener('click', async function() {
+
+const response = await fetch("/api/authn/mark-student", 
+            {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ document.querySelector("#matno").value}),
+            credentials: "include"
+        })
+
+        const initResponse = await response.json()
+
+
+            document.getElementById('status').innerText = "Attendance marked ✅";
+            this.disabled = true
+            this.innerText = "Attendance Marked"
+        });
+    </script>
+
 </body>
 </html>
