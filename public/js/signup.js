@@ -21,6 +21,9 @@ async function signUpfingerprint(e){
                 displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
 
                 return
+            }else{
+                localStorage.setItem('gc1fab_matric_no','')
+                localStorage.setItem('gc1fab_stuname','')
             }
         }
 
