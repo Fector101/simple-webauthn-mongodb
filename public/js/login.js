@@ -1,9 +1,15 @@
 const { startRegistration,startAuthentication} = SimpleWebAuthnBrowser;
 const backDropEle = document.querySelector('.cover')
 
-function displayHint(hint) {
-    document.querySelector('#text').innerText = hint
+function displayHint(hint, good) {
+
+  const msgEle = document.querySelector('#text')
+  msgEle.innerText = hint
+  msgEle.classList.add(good ? 'good' : 'bad')
+  
 }
+
+
 function removeSpinner(){
     backDropEle.classList.add('display-none')
 }
@@ -27,7 +33,7 @@ async function loginInWithfingerprint(e){
             })
             const res_=await is_stud_response.json()
             if(res_.exists && !res_.error){
-                displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
+                displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`, false)
                 removeSpinner()
                 return
             }
@@ -45,18 +51,18 @@ async function loginInWithfingerprint(e){
         const initResponse = await response.json()
 
         if(initResponse.error){
-            displayHint('Connection Timeout')
+            displayHint('Connection Timeout', false)
             removeSpinner()
             // displayHint('This device is not supported authentication')
             return
         }
         else if(initResponse.exists == false){
-            displayHint('Student doesn\'t exists')
+            displayHint('Student doesn\'t exists',false)
             removeSpinner()
             return
         }
         else if(initResponse.msg === 'xxx'){
-            displayHint(JSON.stringify(initResponse))
+            displayHint(JSON.stringify(initResponse), false)
             removeSpinner()
             return
         }
@@ -68,7 +74,7 @@ async function loginInWithfingerprint(e){
             authJSON =await startAuthentication(initResponse)
         }
         catch(err){
-            displayHint('This device is not supported authentication')
+            displayHint('This device is not supported authentication', false)
             removeSpinner()
             return
         }
@@ -84,13 +90,13 @@ async function loginInWithfingerprint(e){
         const verifyResponse = await verify_response.json();
 
         if(verifyResponse.error){
-            displayHint('Connection Timeout')
+            displayHint('Connection Timeout', false)
             removeSpinner()
             // displayHint(JSON.stringify(initResponse))
             return
         }
         else{
-            displayHint('Login Successful')
+            displayHint('Login Successful', true)
             window.location.href = '/dashboard'
             // redirect to dashboard page frm server with matric_no
         }
@@ -99,7 +105,8 @@ async function loginInWithfingerprint(e){
         
     }
     catch(err){
-    document.querySelector('#text').innerText = err;
+        
+            displayHint(err, false)
     }
 removeSpinner()
 }
