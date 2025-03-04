@@ -20,6 +20,8 @@ async function signUpfingerprint(e){
     let matric_no = document.querySelector('#matric').value
     let student_name = document.querySelector('#name').value
     addSpinner()
+  
+  displayHint('',true)
     try{
         if(localStorage.getItem('gc1fab_matric_no')){
             const is_stud_response = await fetch("/api/authn/is-student", 
