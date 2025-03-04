@@ -4,13 +4,18 @@ const backDropEle = document.querySelector('.cover')
 function displayHint(hint) {
     document.querySelector('#text').innerText = hint
 }
+function removeSpinner(){
+    backDropEle.classList.add('display-none')
+}
 
+function addSpinner(){
+    backDropEle.classList.remove('display-none')
+}
 async function loginInWithfingerprint(e){
     e.preventDefault();
     matric_no = document.querySelector('#matric').value
     console.log(matric_no)
-    backDropEle.classList.remove('display-none')
-
+    addSpinner()
     try{
         if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
             const is_stud_response = await fetch("/api/authn/is-student", 
@@ -23,6 +28,7 @@ async function loginInWithfingerprint(e){
             const res_=await is_stud_response.json()
             if(res_.exists && !res_.error){
                 displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
+                removeSpinner()
                 return
             }
         }
@@ -40,15 +46,18 @@ async function loginInWithfingerprint(e){
 
         if(initResponse.error){
             displayHint('Connection Timeout')
+            removeSpinner()
             // displayHint('This device is not supported authentication')
             return
         }
         else if(initResponse.exists == false){
             displayHint('Student doesn\'t exists')
+            removeSpinner()
             return
         }
         else if(initResponse.msg === 'xxx'){
             displayHint(JSON.stringify(initResponse))
+            removeSpinner()
             return
         }
 
@@ -60,6 +69,7 @@ async function loginInWithfingerprint(e){
         }
         catch(err){
             displayHint('This device is not supported authentication')
+            removeSpinner()
             return
         }
         console.log(authJSON,'authJSON var')
@@ -75,6 +85,7 @@ async function loginInWithfingerprint(e){
 
         if(verifyResponse.error){
             displayHint('Connection Timeout')
+            removeSpinner()
             // displayHint(JSON.stringify(initResponse))
             return
         }
@@ -90,8 +101,7 @@ async function loginInWithfingerprint(e){
     catch(err){
     document.querySelector('#text').innerText = err;
     }
-    backDropEle.classList.add('display-none')
-
+removeSpinner()
 }
 
 document.querySelector('#loginBtn').addEventListener('click', loginInWithfingerprint);
