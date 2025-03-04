@@ -4,13 +4,18 @@ const backDropEle = document.querySelector('.cover')
 function displayHint(hint) {
     document.querySelector('#text').innerText = hint
 }
+function removeSpinner(){
+    backDropEle.classList.add('display-none')
+}
 
+function addSpinner(){
+    backDropEle.classList.remove('display-none')
+}
 async function signUpfingerprint(e){
     e.preventDefault();
     let matric_no = document.querySelector('#matric').value
     let student_name = document.querySelector('#name').value
-    backDropEle.classList.remove('display-none')
-    
+    addSpinner()
     try{
         if(localStorage.getItem('gc1fab_matric_no')){
             const is_stud_response = await fetch("/api/authn/is-student", 
@@ -23,7 +28,7 @@ async function signUpfingerprint(e){
             const res_ = await is_stud_response.json()
             if(res_.exists && !res_.error){
                 displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
-
+                removeSpinner()
                 return
             }else{
                 localStorage.setItem('gc1fab_matric_no','')
@@ -45,15 +50,18 @@ async function signUpfingerprint(e){
 
         if(initResponse.error){
             displayHint('Connection Timeout')
+            removeSpinner()
             return
         }
         
         else if(initResponse.exists){
             displayHint(`${initResponse.student_name} already registered`)
+            removeSpinner()
             return
         }
         else if(initResponse.msg === 'xxx'){
             displayHint(JSON.stringify(initResponse))
+            removeSpinner()
             return
         }
 
@@ -63,6 +71,7 @@ async function signUpfingerprint(e){
             registationJSON =await startRegistration(initResponse)
         }catch(err){
             displayHint('This device is not supported authentication')
+            removeSpinner()
             // displayHint(err)
             return
         }
@@ -80,11 +89,13 @@ async function signUpfingerprint(e){
 
         if(verifyResponse.error){
             displayHint('Connection Timeout')
+            removeSpinner()
             // displayHint(JSON.stringify(initResponse))
             return
         }
         else if(verifyResponse.already_reg_device){
             displayHint(`${verifyResponse.student_name} device already registered`)
+            removeSpinner()
             return
         }
         else{
@@ -101,7 +112,7 @@ async function signUpfingerprint(e){
     document.querySelector('#text').innerText = err;
         
     }
-    backDropEle.classList.add('display-none')
+    removeSpinner()
 
 }
 
