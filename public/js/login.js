@@ -106,7 +106,7 @@ async function loginInWithfingerprint(e){
     }
     catch(err){
         
-            displayHint(err, false)
+            displayHint(JSON.stringify(err), false)
     }
 removeSpinner()
 }
