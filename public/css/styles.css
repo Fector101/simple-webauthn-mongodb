@@ -125,3 +125,11 @@ a:hover {
         opacity: 1;
     }
 }
+
+.good{
+    color:green;
+}
+
+.bad{
+    color:red;
+}
