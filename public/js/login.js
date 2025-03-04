@@ -22,6 +22,7 @@ async function loginInWithfingerprint(e){
     matric_no = document.querySelector('#matric').value
     console.log(matric_no)
     addSpinner()
+  displayHint('',true)
     try{
         if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
             const is_stud_response = await fetch("/api/authn/is-student", 
