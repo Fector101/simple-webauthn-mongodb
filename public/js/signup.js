@@ -1,8 +1,12 @@
 const { startRegistration,startAuthentication} = SimpleWebAuthnBrowser;
 
 const backDropEle = document.querySelector('.cover')
-function displayHint(hint) {
-    document.querySelector('#text').innerText = hint
+function displayHint(hint, good) {
+
+  const msgEle = document.querySelector('#text')
+  msgEle.innerText = hint
+  msgEle.classList.add(good ? 'good' : 'bad')
+  
 }
 function removeSpinner(){
     backDropEle.classList.add('display-none')
@@ -27,7 +31,7 @@ async function signUpfingerprint(e){
             })
             const res_ = await is_stud_response.json()
             if(res_.exists && !res_.error){
-                displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`)
+                displayHint(`${localStorage.getItem('gc1fab_stuname') || localStorage.getItem('gc1fab_matric_no')} device already registered`, false)
                 removeSpinner()
                 return
             }else{
@@ -49,18 +53,18 @@ async function signUpfingerprint(e){
         const initResponse = await response.json()
 
         if(initResponse.error){
-            displayHint('Connection Timeout')
+            displayHint('Connection Timeout', false)
             removeSpinner()
             return
         }
         
         else if(initResponse.exists){
-            displayHint(`${initResponse.student_name} already registered`)
+            displayHint(`${initResponse.student_name} already registered`, true)
             removeSpinner()
             return
         }
         else if(initResponse.msg === 'xxx'){
-            displayHint(JSON.stringify(initResponse))
+            displayHint(JSON.stringify(initResponse), false)
             removeSpinner()
             return
         }
@@ -70,7 +74,7 @@ async function signUpfingerprint(e){
         try{
             registationJSON =await startRegistration(initResponse)
         }catch(err){
-            displayHint('This device is not supported authentication')
+            displayHint('This device is not supported authentication', false)
             removeSpinner()
             // displayHint(err)
             return
@@ -88,18 +92,18 @@ async function signUpfingerprint(e){
         const verifyResponse = await verify_response.json();
 
         if(verifyResponse.error){
-            displayHint('Connection Timeout')
+            displayHint('Connection Timeout', false)
             removeSpinner()
             // displayHint(JSON.stringify(initResponse))
             return
         }
         else if(verifyResponse.already_reg_device){
-            displayHint(`${verifyResponse.student_name} device already registered`)
+            displayHint(`${verifyResponse.student_name} device already registered`,false)
             removeSpinner()
             return
         }
         else{
-            displayHint('Student Registered successfully')
+            displayHint('Student Registered successfully', true)
             localStorage.setItem('gc1fab_matric_no',matric_no)
             localStorage.setItem('gc1fab_stuname',verifyResponse.student_name)
             // window.location.href = '/dashboard'
