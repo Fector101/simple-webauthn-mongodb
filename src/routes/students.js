@@ -18,12 +18,14 @@ router.get('/dashboard',verifyToken, (req, res) => {
     const userInfo = req.cookies.userInfo
 
     try{
+        console.log(userInfo,'****')
+        console.log(req.user)
         console.log(JSON.parse(userInfo.username),'|----|')
     }catch(err){
         console.log(err)
     }
     console.log(req)
-    res.render('dashboard', { username: req.user.username });
+    res.render('dashboard', { username: req.user.username ,matric_no: req.user.matric_no});
 })
 
 
