@@ -9,7 +9,7 @@ async function loginInWithfingerprint(e){
     e.preventDefault();
     matric_no = document.querySelector('#matric').value
     console.log(matric_no)
-    backDropEle.classList.add('display-none')
+    backDropEle.classList.remove('display-none')
 
     try{
         if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
@@ -90,7 +90,7 @@ async function loginInWithfingerprint(e){
     catch(err){
     document.querySelector('#text').innerText = err;
     }
-    backDropEle.classList.remove('display-none')
+    backDropEle.classList.add('display-none')
 
 }
 

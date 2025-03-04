@@ -321,7 +321,6 @@ router.post("/logout", (req, res) => {
 });
 
 router.post('/mark-student', async (req, res) => {
-    
 })
 
 router.post('/admin-login', async (req, res) => {

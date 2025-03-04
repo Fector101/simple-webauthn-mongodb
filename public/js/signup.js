@@ -9,7 +9,7 @@ async function signUpfingerprint(e){
     e.preventDefault();
     let matric_no = document.querySelector('#matric').value
     let student_name = document.querySelector('#name').value
-    backDropEle.classList.add('display-none')
+    backDropEle.classList.remove('display-none')
     
     try{
         if(localStorage.getItem('gc1fab_matric_no')){
@@ -101,7 +101,7 @@ async function signUpfingerprint(e){
     document.querySelector('#text').innerText = err;
         
     }
-    backDropEle.classList.remove('display-none')
+    backDropEle.classList.add('display-none')
 
 }
 

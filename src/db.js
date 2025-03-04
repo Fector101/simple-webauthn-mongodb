@@ -20,6 +20,9 @@
 // module.exports = connectToDatabase
 
 const USERS = []
+const Attendance= {}
+
+
 function getAllStudents(){
   return USERS.map(user => ({name:user.student_name, matric_no:user.matric_no}))
 }
