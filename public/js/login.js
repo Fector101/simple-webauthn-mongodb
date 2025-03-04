@@ -1,4 +1,6 @@
 const { startRegistration,startAuthentication} = SimpleWebAuthnBrowser;
+const backDropEle = document.querySelector('.cover')
+
 function displayHint(hint) {
     document.querySelector('#text').innerText = hint
 }
@@ -7,6 +9,8 @@ async function loginInWithfingerprint(e){
     e.preventDefault();
     matric_no = document.querySelector('#matric').value
     console.log(matric_no)
+    backDropEle.classList.add('display-none')
+
     try{
         if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
             const is_stud_response = await fetch("/api/authn/is-student", 
@@ -86,6 +90,8 @@ async function loginInWithfingerprint(e){
     catch(err){
     document.querySelector('#text').innerText = err;
     }
+    backDropEle.classList.remove('display-none')
+
 }
 
 document.querySelector('#loginBtn').addEventListener('click', loginInWithfingerprint);

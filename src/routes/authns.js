@@ -320,7 +320,9 @@ router.post("/logout", (req, res) => {
     res.redirect("/signup");
 });
 
-
+router.post('/mark-student', async (req, res) => {
+    
+})
 
 router.post('/admin-login', async (req, res) => {
     try {

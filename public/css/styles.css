@@ -16,7 +16,6 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
-    animation: fadeIn 0.5s ease-in-out;
 }
 
 h2 {
@@ -86,3 +85,43 @@ a:hover {
     background-color: transparent;
     text-decoration: underline;
 } */
+.cover{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #808080b2;
+}
+.display-none{
+    display: none;
+}
+.spinner {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #4CAF50;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

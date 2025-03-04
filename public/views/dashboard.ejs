@@ -26,7 +26,7 @@ const response = await fetch("/api/authn/mark-student",
             {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: matric_no: JSON.stringify({ document.querySelector("#matno").value}),
+            body: JSON.stringify({ matric_no:document.querySelector("#matno").value}),
             credentials: "include"
         })
 
