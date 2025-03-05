@@ -91,7 +91,8 @@ async function loginInWithfingerprint(e){
         const verifyResponse = await verify_response.json();
 
         if(verifyResponse.error){
-            displayHint('Connection Timeout', false)
+            displayHint(verifyResponse.error, false)
+            // displayHint('Connection Timeout', false)
             removeSpinner()
             // displayHint(JSON.stringify(initResponse))
             return

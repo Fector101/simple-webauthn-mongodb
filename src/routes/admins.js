@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser")
 const User = require('../models/Student');
 
-const { getAllStudents } = require("./../db")
+const { getAllStudents } = require("./../db-utils")
 
 const authMiddleware = (req, res, next) => {
   if (req.cookies.authenticated === 'true') {
@@ -62,7 +62,8 @@ router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   });
 
 router.get('/admin-login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../public/pages/admin.html'));
+    res.render('admin-dashboard',{students:[],markedInfo:[]})
+    // res.sendFile(path.join(__dirname, '../../public/pages/admin.html'));
 })
 
 module.exports = router;

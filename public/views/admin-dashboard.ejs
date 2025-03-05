@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="css/student-dashboard.css">
+</head>
+<body>
+    <!-- <div class="container"> -->
+        <h2>Admin Dashboard</h2>
+        <div>
+            <img src="https://avatar.iran.liara.run/public">
+            
+            <div class="student-info">
+                <p class="name"></p>
+                <div class="times-attended">
+                    <p>times</p>
+                    <p>1</p>
+                </div>
+            </div>
+
+            <div class="status">
+            </div>
+        </div>
+
+
+
+<script>
+        document.querySelector('form button').addEventListener('click', async function() {
+
+const response = await fetch("/api/authn/mark-student", 
+            {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ matric_no:document.querySelector("#matno").value}),
+            credentials: "include"
+        })
+
+        const initResponse = await response.json()
+
+
+            document.getElementById('status').innerText = "Attendance marked ✅";
+            this.disabled = true
+            this.innerText = "Attendance Marked"
+        });
+    </script>
+
+</body>
+</html>
