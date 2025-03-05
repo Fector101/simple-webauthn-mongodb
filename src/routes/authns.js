@@ -157,7 +157,7 @@ router.post('/init-auth', async (req, res) => {
             rpID: RP_ID,
             allowCredentials: [
                 {
-                    id: isoBase64URL.toBuffer(student.id),
+                    id: student.id,
                     type: 'public-key',
                     transports: student.passKey.transports
                 }
@@ -181,6 +181,9 @@ router.post('/init-auth', async (req, res) => {
 })
 
 
+function bufferToUint8Array(buffer) {
+    return new Uint8Array(buffer);
+}
 
 router.post('/verify-auth', async (req, res) => {
     const authInfo = JSON.parse(req.cookies.authInfo)
@@ -203,14 +206,15 @@ router.post('/verify-auth', async (req, res) => {
     }
     console.log('-------------------------------')
     try{
+        const backToUint8Array = bufferToUint8Array(student.passKey.publicKey);
         const verification = await verifyAuthenticationResponse({
             response: body.authJSON,
             expectedChallenge: authInfo.challenge,
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
             credential: {
-                id: isoBase64URL.toBuffer(student.id),
-                publicKey:  isoBase64URL.toBuffer(student.passKey.publicKey),
+                id: student.id,
+                publicKey:  backToUint8Array,
                 counter: student.passKey.counter,
                 transports: student.passKey.transports
             }
