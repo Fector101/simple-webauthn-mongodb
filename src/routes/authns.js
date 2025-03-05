@@ -258,7 +258,7 @@ router.post('/verify-auth', async (req, res) => {
 
 router.post("/logout", (req, res) => {
     res.clearCookie("userInfo", { httpOnly: true, secure: process.env.NODE_ENV === "production" });
-    res.redirect("/signup");
+    res.redirect("/login");
 });
 
 router.post('/mark-student', async (req, res) => {
