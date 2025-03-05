@@ -9,6 +9,7 @@ const {
     getUserByMatricNo,
     createUser,getUserById
 } = require("./../db-utils")
+const Attendance = require("../models/Attendance");
 
 
 const CLIENT_URL =  process.env.CLIENT_URL
@@ -262,8 +263,26 @@ router.post("/logout", (req, res) => {
 });
 
 router.post('/mark-student', async (req, res) => {
-    
-        res.json({msg:"Marked"})
+const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD format
+
+  try {
+    let attendance = await Attendance.findOne({ date: today });
+
+    if (!attendance) {
+      attendance = new Attendance({ date: today, students: [studentId] });
+    } else {
+      if (!attendance.students.includes(studentId)) {
+        attendance.students.push(studentId);
+      } else {
+        return { success: false, already_marked: true };
+      }
+    }
+
+    await attendance.save();
+    return res.json({ success: true,already_marked:false});
+  } catch (error) {
+    return { success: false, msg: error.message };
+  }
 })
 
 router.post('/admin-login', async (req, res) => {
