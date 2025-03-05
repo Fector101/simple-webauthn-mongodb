@@ -5,8 +5,8 @@ const studentSchema = new mongoose.Schema({
   matric_no: { type: String, required: true, unique: true },
   student_name: { type: String, required: true },
   passKey: {
-    publicKey: { type: String, required: true },
-    deviceType: { type: Buffer, required: true },
+    publicKey: { type: Buffer, required: true },
+    deviceType: { type: String, required: true },
     backedUp: { type: Boolean, required: true },
     transports: { type: Array, required: true }
   }

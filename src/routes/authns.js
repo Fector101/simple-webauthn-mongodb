@@ -112,6 +112,7 @@ router.post('/verify-reg', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
+            console.log('trying to store ',data_to_store)
             await createUser(
                 data_to_store.id,
                 data_to_store.matric_no,
