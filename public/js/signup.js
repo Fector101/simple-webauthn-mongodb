@@ -23,7 +23,8 @@ async function signUpfingerprint(e){
   
   displayHint('',true)
     try{
-        if(localStorage.getItem('gc1fab_matric_no')){
+       
+     try{if(localStorage.getItem('gc1fab_matric_no')){
             const is_stud_response = await fetch("/api/authn/is-student", 
                 {
                 method: "POST",
@@ -40,8 +41,8 @@ async function signUpfingerprint(e){
                 localStorage.setItem('gc1fab_matric_no','')
                 localStorage.setItem('gc1fab_stuname','')
             }
-        }
-
+        }}
+          catch(err){}
         
         // Get challenge from server, challenge is used to verify the response from the client
         const response = await fetch("/api/authn/init-reg", 
@@ -78,7 +79,7 @@ async function signUpfingerprint(e){
         }catch(err){
             displayHint('This device is not supported authentication', false)
             removeSpinner()
-            // displayHint(err)
+            displayHint(err, false)
             return
         }
         
@@ -106,8 +107,11 @@ async function signUpfingerprint(e){
         }
         else{
             displayHint('Student Registered successfully', true)
+          try{
             localStorage.setItem('gc1fab_matric_no',matric_no)
             localStorage.setItem('gc1fab_stuname',verifyResponse.student_name)
+          }
+          catch(err){}
             window.location.href = '/dashboard'
         }
         console.log(verifyResponse,'verification var')
