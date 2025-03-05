@@ -10,8 +10,9 @@
         <h2>Student Dashboard</h2>
 <span id="matno" style="display:none;"><%= matric_no %>!</span>
         <p>Welcome, <span id="studentName"><%= username %>!</span></p>
-        <button class="markattendace">Mark Attendance</button>
-        <p id="attendanceMessage"></p>
+        <p id="status"></p>
+<button class="markattendace">Mark Attendance</button>
+        
    <form action="/api/authn/logout" method="POST">
         <button type="submit">Logout</button>
     </form>
