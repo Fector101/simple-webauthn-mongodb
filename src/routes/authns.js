@@ -281,7 +281,8 @@ const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD format
     await attendance.save();
     return res.json({ success: true,already_marked:false});
   } catch (error) {
-    return { success: false, msg: error.message };
+      console.log(error)
+      res.status(500).json( { success: false, msg: error.message })
   }
 })
 
