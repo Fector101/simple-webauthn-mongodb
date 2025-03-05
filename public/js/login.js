@@ -24,6 +24,7 @@ async function loginInWithfingerprint(e){
     addSpinner()
   displayHint('',true)
     try{
+      try{
         if(localStorage.getItem('gc1fab_matric_no') && localStorage.getItem('gc1fab_matric_no') !== matric_no){
             const is_stud_response = await fetch("/api/authn/is-student", 
                 {
@@ -39,6 +40,8 @@ async function loginInWithfingerprint(e){
                 return
             }
         }
+      }
+      catch(err){}
         // Get challenge from server, challenge is used to verify the response from the client
         const response = await fetch("/api/authn/init-auth", 
             {
@@ -54,7 +57,7 @@ async function loginInWithfingerprint(e){
         if(initResponse.error){
             displayHint('Connection Timeout', false)
             removeSpinner()
-            // displayHint('This device is not supported authentication')
+           // displayHint('This device is not supported authentication')
             return
         }
         else if(initResponse.exists == false){
@@ -75,7 +78,7 @@ async function loginInWithfingerprint(e){
             authJSON =await startAuthentication(initResponse)
         }
         catch(err){
-            displayHint('This device is not supported authentication', false)
+            displayHint(err, false)//'This device is not supported authentication', false)
             removeSpinner()
             return
         }
