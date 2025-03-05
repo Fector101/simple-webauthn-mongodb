@@ -101,10 +101,10 @@ router.post('/verify-reg', async (req, res) => {
         
         if (verification.verified) {
             const data_to_store = {
-                id: verification.registrationInfo.credential.id,
+                id: isoBase64URL.toBuffer(verification.registrationInfo.credential.id),
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
-                publicKey: isoBase64URL.fromBuffer(verification.registrationInfo.credential.publicKey),
+                publicKey: isoBase64URL.toBuffer(verification.registrationInfo.credential.publicKey),
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
@@ -112,11 +112,11 @@ router.post('/verify-reg', async (req, res) => {
 
             }
             await createUser(
-                isoBase64URL.toBuffer(data_to_store.id),
+                data_to_store.id,
                 data_to_store.matric_no,
                 data_to_store.student_name, 
                 passKey={
-                publicKey:  isoBase64URL.toBuffer(data_to_store.publicKey),
+                publicKey:  data_to_store.publicKey,
                 deviceType: data_to_store.deviceType||'singleDevice',
                 backedUp: data_to_store.backedUp || false,
                 transports: data_to_store.transports,
