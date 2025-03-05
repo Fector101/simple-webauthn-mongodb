@@ -53,7 +53,8 @@ router.get('/admin-dashboard', authMiddleware, async (req, res) => {
       // "studentsData": formatData(studentsData)
 
       // });
-      res.send(formatData(studentsData))
+    res.render('admin-dashboard',{students:[],markedInfo:[]})
+      // res.send(formatData(studentsData))
       
   } catch (err) {
       console.error(err);
@@ -62,8 +63,7 @@ router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   });
 
 router.get('/admin-login', (req, res) => {
-    res.render('admin-dashboard',{students:[],markedInfo:[]})
-    // res.sendFile(path.join(__dirname, '../../public/pages/admin.html'));
+    res.sendFile(path.join(__dirname, '../../public/pages/admin.html'));
 })
 
 module.exports = router;

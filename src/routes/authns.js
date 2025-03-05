@@ -22,6 +22,7 @@ router.post('/is-student', async (req, res) => {
     try{
         const matric_no = req.body.matric_no
         let student = getUserByMatricNo(matric_no)
+        console.log('student ',student)
         if (student){
             return res.status(200).json({ exists: true})}
         else{
