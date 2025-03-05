@@ -2,6 +2,7 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const cookieParser = require("cookie-parser")
 const {generateAuthenticationOptions,generateRegistrationOptions, verifyRegistrationResponse, verifyAuthenticationResponse } =require("@simplewebauthn/server")
+const base64url = require("base64url");
 
 const { isoBase64URL } = require('@simplewebauthn/server/helpers')
 const {
@@ -95,7 +96,7 @@ router.post('/verify-reg', async (req, res) => {
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
         })
-    
+        console.log('verification ',verification)
 
         
         
@@ -104,7 +105,7 @@ router.post('/verify-reg', async (req, res) => {
                 id: isoBase64URL.toBuffer(verification.registrationInfo.credential.id),
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
-                publicKey: isoBase64URL.toBuffer(verification.registrationInfo.credential.publicKey),
+                publicKey:  verification.registrationInfo.credential.publicKey.buffer,
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
