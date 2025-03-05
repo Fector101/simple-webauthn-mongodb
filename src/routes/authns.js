@@ -112,11 +112,11 @@ router.post('/verify-reg', async (req, res) => {
 
             }
             await createUser(
-                isoBase64URL.fromBuffer(data_to_store.id),
+                isoBase64URL.toBuffer(data_to_store.id),
                 data_to_store.matric_no,
                 data_to_store.student_name, 
                 passKey={
-                publicKey:  isoBase64URL.fromBuffer(data_to_store.publicKey),
+                publicKey:  isoBase64URL.toBuffer(data_to_store.publicKey),
                 deviceType: data_to_store.deviceType||'singleDevice',
                 backedUp: data_to_store.backedUp || false,
                 transports: data_to_store.transports,
