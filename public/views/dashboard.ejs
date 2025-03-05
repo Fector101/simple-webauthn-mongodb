@@ -35,6 +35,7 @@ const response = await fetch("/api/authn/mark-student",
 
 
             document.getElementById('status').innerText = "Attendance marked ✅";
+            this.style.backgroundColor="darkgreen"
             this.disabled = true
             this.innerText = "Attendance Marked"
         });
