@@ -12,6 +12,7 @@ async function getUserByMatricNo(matric_no) {
 
 
 async function createUser(id, matric_no, student_name, passKey) {
+    console.log({ id, matric_no, student_name, passKey })
     const user = new Student({ id, matric_no, student_name, passKey });
     await user.save();
 }
