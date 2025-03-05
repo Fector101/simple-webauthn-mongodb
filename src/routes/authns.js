@@ -262,6 +262,8 @@ router.post("/logout", (req, res) => {
 });
 
 router.post('/mark-student', async (req, res) => {
+    
+        res.json({msg:"Marked"})
 })
 
 router.post('/admin-login', async (req, res) => {
