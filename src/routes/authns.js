@@ -234,7 +234,7 @@ router.post('/verify-auth', async (req, res) => {
                 transports:body.authJSON.response.transports,
 
             }
-            updateUserCounter(student.id,verification.authenticationInfo.newCounter)
+            //updateUserCounter(student.id,verification.authenticationInfo.newCounter)
             console.log('-------------------------------')
             console.log(data_to_store, ' data_to_store')
             console.log('-------------------------------')
