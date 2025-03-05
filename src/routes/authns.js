@@ -97,15 +97,16 @@ router.post('/verify-reg', async (req, res) => {
             expectedRPID: RP_ID,
         })
         console.log('verification ',verification)
-
+const uint8Array = new Uint8Array(credential.publicKey);
+  const buffer = Buffer.from(uint8Array);
         
         
         if (verification.verified) {
             const data_to_store = {
-                id: isoBase64URL.toBuffer(verification.registrationInfo.credential.id),
+                id: verification.registrationInfo.credential.id,
                 matric_no: req.body.matric_no,
                 student_name: req.body.student_name,
-                publicKey:  verification.registrationInfo.credential.publicKey.buffer,
+                publicKey:  buffer,
                 counter: verification.registrationInfo.credential.counter,
                 deviceType: verification.registrationInfo.credentialDeviceType,
                 backedUp: verification.registrationInfo.credentialBackedUp,
