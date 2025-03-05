@@ -152,7 +152,7 @@ router.post('/init-auth', async (req, res) => {
             rpID: RP_ID,
             allowCredentials: [
                 {
-                    id: student.id,
+                    id: isoBase64URL.toBuffer(student.id),
                     type: 'public-key',
                     transports: student.passKey.transports
                 }
@@ -204,8 +204,8 @@ router.post('/verify-auth', async (req, res) => {
             expectedOrigin: CLIENT_URL,
             expectedRPID: RP_ID,
             credential: {
-                id:student.id,
-                publicKey: student.passKey.publicKey,
+                id: isoBase64URL.toBuffer(student.id),
+                publicKey:  isoBase64URL.toBuffer(student.passKey.publicKey),
                 counter: student.passKey.counter,
                 transports: student.passKey.transports
             }
