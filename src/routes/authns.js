@@ -264,15 +264,15 @@ router.post("/logout", (req, res) => {
 
 router.post('/mark-student', async (req, res) => {
 const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD format
-
+const matric_no = req.body.matric_no
   try {
     let attendance = await Attendance.findOne({ date: today });
 
     if (!attendance) {
-      attendance = new Attendance({ date: today, students: [studentId] });
+      attendance = new Attendance({ date: today, students: [matric_no] });
     } else {
-      if (!attendance.students.includes(studentId)) {
-        attendance.students.push(studentId);
+      if (!attendance.students.includes(matric_no)) {
+        attendance.students.push(matric_no);
       } else {
         return { success: false, already_marked: true };
       }
