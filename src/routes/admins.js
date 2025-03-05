@@ -46,7 +46,8 @@ router.use(cookieParser())
 // })
 router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   try {
-    const studentsData = getAllStudents();
+    const studentsData = await getAllStudents();
+    console.log(studentsData)
       // req.user is set by the middleware
       // res.json({ 
       // message: 'Admin dashboard accessed successfully', 

@@ -21,7 +21,7 @@ router.use(cookieParser())
 router.post('/is-student', async (req, res) => {
     try{
         const matric_no = req.body.matric_no
-        let student = getUserByMatricNo(matric_no)
+        let student = await getUserByMatricNo(matric_no)
         console.log('student ',student)
         if (student){
             return res.status(200).json({ exists: true})}
@@ -42,7 +42,7 @@ router.post('/init-reg', async (req, res) => {
         const matric_no = req.body.matric_no
         console.log(matric_no, ' matric_no, student_name ', student_name)
 
-        let student = getUserByMatricNo(matric_no)
+        let student = await getUserByMatricNo(matric_no)
         if (student) return res.status(400).json({ exists: true,student_name:student.student_name})
 
         const opts = await generateRegistrationOptions({
@@ -111,7 +111,7 @@ router.post('/verify-reg', async (req, res) => {
                 transports:body.registationJSON.response.transports,
 
             }
-            createUser(
+            await createUser(
                 isoBase64URL.fromBuffer(data_to_store.id),
                 data_to_store.matric_no,
                 data_to_store.student_name, 
@@ -145,7 +145,7 @@ router.post('/init-auth', async (req, res) => {
     try {
         const matric_no = req.body.matric_no
         console.log(matric_no, ' matric_no')
-        let student = getUserByMatricNo(matric_no)
+        let student = await getUserByMatricNo(matric_no)
         console.log('student---| ',student)
         if (!student) return res.status(400).json({ exists: false })
             
@@ -188,7 +188,7 @@ router.post('/verify-auth', async (req, res) => {
     const matric_no = body.matric_no
     console.log('-------------------------------')
     
-    const student = getUserById(authInfo.userId)
+    const student = await getUserById(authInfo.userId)
     console.log('student-----| ', student)
     console.log('project test ', student.matric_no, '||',matric_no)
     // if student exists ||| student id === the id frm request and thumbprint public key matches with matric no
@@ -230,7 +230,7 @@ router.post('/verify-auth', async (req, res) => {
             console.log('-------------------------------')
             console.log(data_to_store, ' data_to_store')
             console.log('-------------------------------')
-            console.log(getUserByMatricNo(matric_no), ' getUserByMatricNo--')
+            console.log(await getUserByMatricNo(matric_no), ' getUserByMatricNo--')
             res.clearCookie("authInfo")
             
             // Save Student in a session cookie
