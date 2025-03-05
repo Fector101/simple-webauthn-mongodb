@@ -97,7 +97,8 @@ router.post('/verify-reg', async (req, res) => {
             expectedRPID: RP_ID,
         })
         console.log('verification ',verification)
-const uint8Array = new Uint8Array(credential.publicKey);
+       
+const uint8Array = new Uint8Array(verification.registrationInfo.credential.publicKey);
   const buffer = Buffer.from(uint8Array);
         
         
