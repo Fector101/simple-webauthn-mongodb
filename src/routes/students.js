@@ -2,6 +2,8 @@ const express = require('express')
 const cookieParser = require("cookie-parser")
 const path = require('path')
 const verifyToken = require('./../helper/basic')
+const Attendance = require("../models/Attendance");
+
 
 const router = express.Router();
 router.use(cookieParser())
@@ -16,7 +18,11 @@ router.get('/login', (req, res) => {
 
 router.get('/dashboard',verifyToken, (req, res) => {
     const user = req.user
-    res.render('dashboard', { username: user.username ,matric_no: user.matric_no});
+    let attendance = await Attendance.findOne({ date: today });
+    
+        
+    
+    res.render('dashboard', { username: user.username ,matric_no: user.matric_no, already_marked:attendance.students.includes(user.matric_no)});
 })
 
 
