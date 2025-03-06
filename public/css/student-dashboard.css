@@ -1,23 +1,57 @@
-*{
+* {
     margin: 0;
     border: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px 10px;
     font-family: sans-serif;
 }
-.all-student-data{
+
+.top-bar {
+    margin-top: 10px;
+    width: 100%;
     display: flex;
-  flex-direction: column;
+    justify-content: center;
+}
+
+.top-bar button {
+    width: 100px;
+    background-color: #a0b5a9;
+}
+
+.top-bar button.active {
+    background-color: #28a745;
+
+}
+
+.top-bar button:nth-child(1) {
+    border-radius: 5px 0 0 5px;
+}
+
+.top-bar button:nth-child(2) {
+    border-radius: 0 5px 5px 0;
+}
+
+.top-bar button:hover {
+    /* # */
+    /* border: 1px solid #a0b5a9; */
+    background-color: #0cd261;
+}
+
+.all-student-data {
+    display: flex;
+    flex-direction: column;
     padding: 10px;
     width: 700px;
     max-width: 100%;
 }
-.student-info{
+
+.student-info {
     color: white;
     border-radius: 7px;
     --box-height: 80px;
@@ -27,11 +61,13 @@ body{
     box-shadow: 2px 3px 1px 1px #afadad;
     overflow: hidden;
 }
-.student-info img{
+
+.student-info img {
     background-color: rgb(165, 200, 175);
     width: var(--box-height);
 }
-.student-info .student-data{
+
+.student-info .student-data {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -41,14 +77,16 @@ body{
     background: gray;
 
 }
-.student-info .texts{
+
+.student-info .texts {
     /* display: flex; */
     flex-wrap: wrap;
-    margin-top:auto; 
+    margin-top: auto;
     font-size: 15px;
-    
+
 }
-.student-info .times-attended{
+
+.student-info .times-attended {
     font-size: 15px;
     background-color: #b0b0b0;
     color: #22226a;
@@ -60,15 +98,16 @@ body{
     border-radius: 5px;
 
     width: 100%;
-    overflow:hidden; 
-    white-space:nowrap; 
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
-.student-info .times-attended p:nth-child(1){
+
+.student-info .times-attended p:nth-child(1) {
     margin: auto;
 }
 
-.student-info .status{
+.student-info .status {
     color: white;
     display: flex;
     flex-direction: column;
@@ -81,12 +120,15 @@ body{
     font-weight: bold;
 
 }
-.student-info .status p:nth-child(1){
+
+.student-info .status p:nth-child(1) {
     font-size: 25px;
 }
-.student-info .status p:nth-child(2){
+
+.student-info .status p:nth-child(2) {
     font-size: 15px;
 }
+
 .container {
     max-width: 400px;
     margin: 40px auto;
@@ -114,7 +156,6 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
@@ -135,15 +176,12 @@ button:hover {
     height: 60px;
     animation: spin 2s linear infinite;
 }
-.align-right{
-    align-self: flex-end;
-}
-.margin-btm-10px{
-    margin-bottom: 10px;
-}
 
 @media only screen and (max-width: 406px) {
-   .student-info{
+    .student-info {
         --box-height: 100px;
     }
-  }
+    .student-info p{
+        font-size: 14px;
+    }
+}

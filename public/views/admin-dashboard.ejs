@@ -4,11 +4,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="css/student-dashboard.css">
+    <link rel="icon" type="image/x-icon" href="imgs/favicon.ico">
+    <script defer src="js/student-dashboard.js"></script>
+    <link rel="stylesheet" href="css/helper.css">
 </head>
 <body>
     <!-- <div class="container"> -->
         <h2>Admin Dashboard</h2>
-        <div class="all-student-data">
+        <div class="top-bar">
+            <button class="active">Registered</button>
+            <button>Marked</button>
+        </div>
+        <div class="all-student-data" id="reg-tab">
+
+            <h3 class="margin-btm-10px margin-top-10px align-center">Registered Students</h3>
+          
+
+            <div class="student-info">
+                <img src="../imgs/user.jpg">
+                <div class="student-data">
+                    <div class="texts">
+                        <p>Name: Fabian &nbsp;</p>
+                        <p>Matric No: FT23CMP0040</p>
+                    </div>
+
+                    <div class="times-attended">
+                        <p>Times attended: 1</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="all-student-data display-none" id="marked-tab">
 
             <h3 class="align-right">Choose Date</h3>
             <select class="align-right margin-btm-10px">
@@ -35,6 +64,7 @@
             </div>
 
         </div>
+
 
 <!-- 
 
