@@ -48,16 +48,7 @@ router.get('/admin-dashboard', async (req, res) => {
 // router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   try {
     const studentsData = await getAllStudents();
-    console.log(studentsData)
-      // req.user is set by the middleware
-      // res.json({ 
-      // message: 'Admin dashboard accessed successfully', 
-      // "studentsData": formatData(studentsData)
-
-      // });
-    res.render('admin-dashboard',{students:[],markedInfo:[]})
-      // res.send(formatData(studentsData))
-      
+    res.render('admin-dashboard',{students:studentsData,markedInfo:[]})
   } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Server error' });

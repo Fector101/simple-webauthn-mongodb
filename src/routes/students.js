@@ -3,7 +3,6 @@ const cookieParser = require("cookie-parser")
 const path = require('path')
 const verifyToken = require('./../helper/basic')
 const Attendance = require("../models/Attendance");
-const Student = require("../models/Student");
 
 
 const router = express.Router();
@@ -22,12 +21,11 @@ router.get('/dashboard', verifyToken, async (req, res) => {
   const today = new Date().toISOString().split("T")[0];
 
   let attendance = await Attendance.findOne({ date: today })
-  const students = await Student.find();
-  console.log('This is students ---> ',students)
+
   const matric_no = user.matric_no
   let already_marked = attendance && attendance.students.includes(matric_no);
 
-  res.render('dashboard', { students,username: user.username, matric_no, already_marked })
+  res.render('dashboard', { username: user.username, matric_no, already_marked })
 })
 
 
