@@ -5,6 +5,7 @@
     <title>Student Dashboard</title>
     <link rel="icon" type="image/x-icon" href="imgs/favicon.ico">
     <link rel="stylesheet" href="css/student-dashboard.css">
+    <link rel="stylesheet" href="css/helper.css">
 </head>
 <body>
     <div class="container">
@@ -15,7 +16,7 @@
 <button class="markattendace" <%= already_marked ? "disabled" : "" %>>
             <%= already_marked ? "Attendance Marked" : "Mark Attendance" %>
         </button>
-        <p id="spacing"></p>
+        <p id="spacing margin-btm-10px"></p>
    <form action="/api/authn/logout" method="POST">
         <button type="submit">Logout</button>
     </form>
