@@ -23,7 +23,7 @@ router.get('/dashboard', verifyToken, async (req, res) => {
 
   let attendance = await Attendance.findOne({ date: today })
   const students = await Student.find();
-
+  console.log('This is students ---> ',students)
   const matric_no = user.matric_no
   let already_marked = attendance && attendance.students.includes(matric_no);
 
