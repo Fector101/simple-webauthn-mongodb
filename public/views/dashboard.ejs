@@ -10,8 +10,10 @@
         <h2>Student Dashboard</h2>
 <span id="matno" style="display:none;"><%= matric_no %></span>
         <p>Welcome, <span id="studentName"><%= username %>!</span></p>
-        <p id="status"></p>
-<button class="markattendace">Mark Attendance</button>
+        <p id="status"><%= already_marked ? "Attendance already marked ✅" : "Attendance not marked" %></p>
+<button class="markattendace" <%= already_marked ? "disabled" : "" %>>
+            <%= already_marked ? "Attendance Marked" : "Mark Attendance" %>
+        </button>
         <p id="spacing"></p>
    <form action="/api/authn/logout" method="POST">
         <button type="submit">Logout</button>
