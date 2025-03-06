@@ -18,11 +18,14 @@ router.get('/login', (req, res) => {
 
 router.get('/dashboard',verifyToken, (req, res) => {
     const user = req.user
-    let attendance = await Attendance.findOne({ date: today });
+      const today = new Date().toISOString().split("T")[0];
+  
+  let attendance = await Attendance.findOne({ date: today })
     
+    const matric_no=user.matric_no
+  let already_marked = attendance && attendance.students.includes(matric_no);
         
-    
-    res.render('dashboard', { username: user.username ,matric_no: user.matric_no, already_marked:attendance.students.includes(user.matric_no)});
+    res.render('dashboard', { username: user.username ,matric_no, already_marked})
 })
 
 
