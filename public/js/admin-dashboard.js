@@ -27,84 +27,84 @@ document.querySelector('.top-bar').addEventListener('click', function (event) {
 
 
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const regTab = document.getElementById("reg-tab");
-    const markedTab = document.getElementById("marked-tab");
-    const dateSelect = document.querySelector("select");
+// document.addEventListener("DOMContentLoaded", async () => {
+//     const regTab = document.getElementById("reg-tab");
+//     const markedTab = document.getElementById("marked-tab");
+//     const dateSelect = document.querySelector("select");
 
-    async function fetchStudents() {
-        const res = await fetch("/api/students");
-        const students = await res.json();
+//     async function fetchStudents() {
+//         const res = await fetch("/api/students");
+//         const students = await res.json();
 
-        regTab.innerHTML = `<h3 class="align-center">Registered Students</h3>`;
-        students.forEach(student => {
-            regTab.innerHTML += `
-          <div class="student-info">
-            <img src="../imgs/user.jpg">
-            <div class="student-data">
-              <div class="texts">
-                <p>Name: ${student.student_name} &nbsp;</p>
-                <p>Matric No: ${student.matric_no}</p>
-              </div>
-              <div class="times-attended">
-                <p>Times attended: 0</p>
-              </div>
-            </div>
-          </div>
-        `;
-        });
-    }
+//         regTab.innerHTML = `<h3 class="align-center">Registered Students</h3>`;
+//         students.forEach(student => {
+//             regTab.innerHTML += `
+//           <div class="student-info">
+//             <img src="../imgs/user.jpg">
+//             <div class="student-data">
+//               <div class="texts">
+//                 <p>Name: ${student.student_name} &nbsp;</p>
+//                 <p>Matric No: ${student.matric_no}</p>
+//               </div>
+//               <div class="times-attended">
+//                 <p>Times attended: 0</p>
+//               </div>
+//             </div>
+//           </div>
+//         `;
+//         });
+//     }
 
-    async function fetchAttendance(date) {
-        const res = await fetch(`/api/attendance?date=${date}`);
-        const { students } = await res.json();
+//     async function fetchAttendance(date) {
+//         const res = await fetch(`/api/attendance?date=${date}`);
+//         const { students } = await res.json();
 
-        markedTab.innerHTML = `<h3 class="align-center">Marked Students</h3>`;
+//         markedTab.innerHTML = `<h3 class="align-center">Marked Students</h3>`;
 
-        if (students.length === 0) {
-            markedTab.innerHTML += `<p>No attendance records for this date.</p>`;
-            return;
-        }
+//         if (students.length === 0) {
+//             markedTab.innerHTML += `<p>No attendance records for this date.</p>`;
+//             return;
+//         }
 
-        for (const matric_no of students) {
-            const studentRes = await fetch(`/api/students`);
-            const studentList = await studentRes.json();
-            const student = studentList.find(s => s.matric_no === matric_no);
+//         for (const matric_no of students) {
+//             const studentRes = await fetch(`/api/students`);
+//             const studentList = await studentRes.json();
+//             const student = studentList.find(s => s.matric_no === matric_no);
 
-            if (student) {
-                markedTab.innerHTML += `
-            <div class="student-info">
-              <img src="../imgs/user.jpg">
-              <div class="student-data">
-                <div class="texts">
-                  <p>Name: ${student.student_name} &nbsp;</p>
-                  <p>Matric No: ${student.matric_no}</p>
-                </div>
-                <div class="status">
-                  <p>P</p>
-                  <p>Present</p>
-                </div>
-              </div>
-            </div>
-          `;
-            }
-        }
-    }
+//             if (student) {
+//                 markedTab.innerHTML += `
+//             <div class="student-info">
+//               <img src="../imgs/user.jpg">
+//               <div class="student-data">
+//                 <div class="texts">
+//                   <p>Name: ${student.student_name} &nbsp;</p>
+//                   <p>Matric No: ${student.matric_no}</p>
+//                 </div>
+//                 <div class="status">
+//                   <p>P</p>
+//                   <p>Present</p>
+//                 </div>
+//               </div>
+//             </div>
+//           `;
+//             }
+//         }
+//     }
 
-    async function loadDates() {
-        const res = await fetch("/api/attendance");
-        const records = await res.json();
+//     async function loadDates() {
+//         const res = await fetch("/api/attendance");
+//         const records = await res.json();
 
-        dateSelect.innerHTML = `<option value="">-- Select a Date --</option>`;
-        records.forEach(record => {
-            dateSelect.innerHTML += `<option value="${record.date}">${record.date}</option>`;
-        });
+//         dateSelect.innerHTML = `<option value="">-- Select a Date --</option>`;
+//         records.forEach(record => {
+//             dateSelect.innerHTML += `<option value="${record.date}">${record.date}</option>`;
+//         });
 
-        dateSelect.addEventListener("change", () => {
-            if (dateSelect.value) fetchAttendance(dateSelect.value);
-        });
-    }
+//         dateSelect.addEventListener("change", () => {
+//             if (dateSelect.value) fetchAttendance(dateSelect.value);
+//         });
+//     }
 
-    await fetchStudents();
-    await loadDates();
-});
+//     await fetchStudents();
+//     await loadDates();
+// });
