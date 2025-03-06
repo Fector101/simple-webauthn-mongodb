@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser")
 const path = require('path')
 const verifyToken = require('./../helper/basic')
 const Attendance = require("../models/Attendance");
+const Student = require("../models/Student");
 
 
 const router = express.Router();
