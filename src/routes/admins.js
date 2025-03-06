@@ -44,6 +44,7 @@ router.use(cookieParser())
 //       res.status(500).json({ message: 'Server error' });
 //     }
 // })
+// router.get('/admin-dashboard', async (req, res) => {
 router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   try {
     const studentsData = await getAllStudents();

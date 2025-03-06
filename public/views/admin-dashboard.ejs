@@ -8,22 +8,28 @@
 <body>
     <!-- <div class="container"> -->
         <h2>Admin Dashboard</h2>
-        <div>
-            <img src="https://avatar.iran.liara.run/public">
+        <div class="all-student-data">
+            <!-- <img src="https://avatar.iran.liara.run/public"> -->
             
             <div class="student-info">
-                <p class="name"></p>
-                <div class="times-attended">
-                    <p>times</p>
-                    <p>1</p>
+                <img src="../imgs/img.png">
+                <div class="student-data">
+                    <p class="name">Fabian</p>
+                    <div class="times-attended">
+                        <p>times</p>
+                        <p>1</p>
+                    </div>
+                </div>
+
+                <div class="status">
+                    <p>P</p>
+                    <p>Present</p>
                 </div>
             </div>
 
-            <div class="status">
-            </div>
         </div>
 
-
+<!-- 
 
 <script>
         document.querySelector('form button').addEventListener('click', async function() {
@@ -43,7 +49,7 @@ const response = await fetch("/api/authn/mark-student",
             this.disabled = true
             this.innerText = "Attendance Marked"
         });
-    </script>
+    </script> -->
 
 </body>
 </html>

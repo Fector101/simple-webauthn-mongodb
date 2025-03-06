@@ -1,4 +1,78 @@
+*{
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+body{
+    text-align: center;
+}
+.all-student-data{
+    padding: 10px;
+    font-family: sans-serif;
+    max-width: 700px;
+}
+.student-info{
+    color: white;
+    border-radius: 7px;
+    --box-height: 70px;
+    display: flex;
+    background: #9d7272;
+    max-height: var(--box-height);
+    box-shadow: 2px 3px 1px 1px #afadad;
+    overflow: hidden;
+}
+.student-info img{
+    background-color: rgb(165, 200, 175);
+    width: var(--box-height);
+}
+.student-info .student-data{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 5px;
+    padding-right: 5px;
+    gap: 5px;
+    background: gray;
 
+}
+.student-info .name{
+
+    margin-top: auto;
+}
+.student-info .times-attended{
+    background-color: #b0b0b0;
+    color: #2424dd;
+    display: flex;
+    height: max-content;
+    align-items: center;
+    padding: 1px 15px;
+    margin: 0;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.student-info .times-attended p:nth-child(1){
+    margin: auto;
+}
+
+.student-info .status{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--box-height);
+    height: var(--box-height);
+    background-color: #39bd39;
+    font-weight: bold;
+
+}
+.student-info .status p:nth-child(1){
+    font-size: 25px;
+}
+.student-info .status p:nth-child(2){
+    font-size: 15px;
+}
 .container {
     max-width: 400px;
     margin: 40px auto;
