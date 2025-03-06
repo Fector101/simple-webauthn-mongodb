@@ -20,7 +20,7 @@ body{
 .student-info{
     color: white;
     border-radius: 7px;
-    --box-height: 70px;
+    --box-height: 80px;
     display: flex;
     background: #9d7272;
     max-height: var(--box-height);
@@ -41,20 +41,28 @@ body{
     background: gray;
 
 }
-.student-info .name{
+.student-info .texts{
+    /* display: flex; */
+    flex-wrap: wrap;
+    margin-top:auto; 
     font-size: 15px;
-    margin-top:auto;
+    
 }
 .student-info .times-attended{
+    font-size: 15px;
     background-color: #b0b0b0;
     color: #22226a;
     display: flex;
     height: max-content;
     align-items: center;
-    padding: 1px 15px;
-    margin: 0;
-    margin-bottom: 10px;
+    padding: 0 15px;
+    margin-bottom: 6px;
     border-radius: 5px;
+
+    width: 100%;
+    overflow:hidden; 
+    white-space:nowrap; 
+    text-overflow: ellipsis;
 }
 .student-info .times-attended p:nth-child(1){
     margin: auto;
@@ -133,3 +141,9 @@ button:hover {
 .margin-btm-10px{
     margin-bottom: 10px;
 }
+
+@media only screen and (max-width: 406px) {
+   .student-info{
+        --box-height: 100px;
+    }
+  }
