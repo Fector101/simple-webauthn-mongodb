@@ -16,7 +16,7 @@ router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/pages/login.html'));
 })
 
-router.get('/dashboard',verifyToken, (req, res) => {
+router.get('/dashboard',verifyToken,async (req, res) => {
     const user = req.user
       const today = new Date().toISOString().split("T")[0];
   
