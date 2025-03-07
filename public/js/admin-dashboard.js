@@ -51,7 +51,7 @@ function displayDateData(event){
             
             <div class="texts">
                 <p>Name: ${each_student.name} &nbsp;</p>
-                <p>Matric No: ${each.matric_no}</p>
+                <p>Matric No: ${each_student.matric_no}</p>
             </div>
             
             <div class="times-attended">
