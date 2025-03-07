@@ -51,7 +51,7 @@ async function getAttendanceWithNames(students) {
     // Format attendance records
     const attendanceData = {};
     attendanceRecords.forEach(record => {
-      attendanceData[record.date] = record.students.map(matric => studentMap[matric]);
+      attendanceData[record.date] = record.students.map(matric => ({name:studentMap[matric],matric_no:matric}) );
     });
 
     return attendanceData;
