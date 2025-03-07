@@ -5,10 +5,13 @@
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="css/admin-dashboard.css">
     <link rel="icon" type="image/x-icon" href="imgs/favicon.ico">
-    <script defer src="js/admin-dashboard.js"></script>
     <link rel="stylesheet" href="css/helper.css">
+    <script defer src="js/admin-dashboard.js"></script>
 </head>
 <body>
+        <span id="hidden" hidden>
+            <%= JSON.stringify(attendance); %>
+        </span>
         <h2>Admin Dashboard</h2>
         <div class="top-bar">
             <button class="active">Registered</button>
@@ -30,28 +33,21 @@
                     </div>
                 </div>
             <% }) %>
-            <!-- <div class="student-info">
-                <img src="../imgs/user.jpg">
-                <div class="student-data">
-                    <div class="texts">
-                        <p>Name: Fabian &nbsp;</p>
-                        <p>Matric No: FT23CMP0040</p>
-                    </div>
-
-                    <div class="times-attended">
-                        <p>Times attended: 1</p>
-                    </div>
-                </div>
-            </div> -->
 
         </div>
 
+
+        
         <div class="all-student-data display-none" id="marked-tab">
             <h3 class="margin-btm-10px margin-top-10px align-center">Marked Students</h3>
             <h3 class="align-right">Choose Date</h3>
             <select class="align-right margin-btm-10px">
                 <option value="">-- Select a Date --</option>
+                <!-- <option value="" onchange="updateStudentList()">-- Select a Date --</option> -->
             </select>
+
+
+
 
             <div class="student-info">
                 <img src="../imgs/user.jpg">
@@ -71,6 +67,26 @@
                     <p>Present</p>
                 </div>
             </div>
+
+            <!--  if (students.length === 0) {>
+                <p>No students marked present for this date.</p>
+             } else { 
+                 students.forEach(student => { 
+                    <div class="student-info">
+                        <img src="../imgs/user.jpg">
+                        <div class="student-data">
+                            <div class="texts">
+                                <p>Name: < student.student_name &nbsp;</p>
+                                <p>Matric No: = student.matric_no ></p>
+                            </div>
+                        </div>
+                        <div class="status">
+                            <p>P</p>
+                            <p>Present</p>
+                        </div>
+                    </div>
+                 })
+             } -->
 
         </div>
 

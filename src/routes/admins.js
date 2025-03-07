@@ -36,22 +36,39 @@ function formatData(data) {
 const router = express.Router();
 router.use(cookieParser())
 
-// router.get('/admin-dashboard', async (req, res) => {
-//     try {
-//       // const users = await User.find().select('-password'); // Don't send passwords
-//       res.json({ users });
-//     } catch (err) {
-//       res.status(500).json({ message: 'Server error' });
-//     }
-// })
+async function getAttendanceWithNames(students) {
+  try {
+    const attendanceRecords = await Attendance.find();
+
+    // Create a map of matric_no -> student_name for quick lookup
+    const studentMap = {};
+    students.forEach(student => {
+      studentMap[student.matric_no] = student.name;
+    });
+
+    // Format attendance records
+    const attendanceData = {};
+    attendanceRecords.forEach(record => {
+      attendanceData[record.date] = record.students.map(matric => studentMap[matric]);
+    });
+
+    return attendanceData;
+  } catch (error) {
+    console.error("Error fetching attendance data:", error);
+    return {};
+  }
+}
+
+
 router.get('/admin-dashboard', async (req, res) => {
 // router.get('/admin-dashboard', authMiddleware, async (req, res) => {
   try {
     const studentsData = await getAllStudents();
-    res.render('admin-dashboard',{students:studentsData,markedInfo:[]})
+    const attendance = await getAttendanceWithNames(studentsData)
+    res.render('admin-dashboard',{students:studentsData,attendance})
   } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Server error' });
+      res.status(500).redirect('/admin-login')
   }
   });
 

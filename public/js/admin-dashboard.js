@@ -23,8 +23,22 @@ document.querySelector('.top-bar').addEventListener('click', function (event) {
 })
 
 
+const attendance = JSON.parse(document.querySelector('#hidden').innerText)
+console.log(attendance)
+// function updateStudentList() {
+//     let selectedDate = document.getElementById("dateSelect").value;
+//     let studentContainer = document.getElementById("studentList");
+//     studentContainer.innerHTML = ""; // Clear previous students
 
-
+//     if (attendanceData[selectedDate]) {
+//         attendanceData[selectedDate].forEach(student => {
+//             let studentDiv = document.createElement("div");
+//             studentDiv.classList.add("student-info");
+//             studentDiv.innerHTML = `<p>${student}</p>`;
+//             studentContainer.appendChild(studentDiv);
+//         });
+//     }
+// }
 
 
 // document.addEventListener("DOMContentLoaded", async () => {
