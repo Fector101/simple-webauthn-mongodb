@@ -48,10 +48,10 @@ function displayDateData(event){
         <div class="student-info">
             <img src="../imgs/user.jpg">
             <div class="student-data">
-            
-            <div class="texts">
-                <p>Name: ${each_student.name} &nbsp;</p>
-                <p>Matric No: ${each_student.matric_no}</p>
+                <div class="texts">
+                    <p>Name: ${each_student.name} &nbsp;</p>
+                    <p>Matric No: ${each_student.matric_no}</p>
+                </div>
             </div>
             
             <div class="times-attended">
