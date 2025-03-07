@@ -29,7 +29,7 @@ console.log(attendance)
 
 const datesSelectELe = document.querySelector('#dates')
 function populateDates(){
-    const dates = keys(attendance)
+    const dates = Object.keys(attendance)
     let optionsEle = ''
     dates.forEach(date => {
         optionsEle += `<option value=${date}> ${date} </option>`        
