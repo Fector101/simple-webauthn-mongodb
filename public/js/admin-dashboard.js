@@ -54,7 +54,7 @@ function displayDateData(event){
                 </div>
                 
                 <div class="times-attended">
-                <p>Times attended: 1</p>
+                    <p>Times attended: 1</p>
                 </div>
             </div>
 
