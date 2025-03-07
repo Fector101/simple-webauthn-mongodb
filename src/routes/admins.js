@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser")
 const User = require('../models/Student');
+const Attendance = require("../models/Attendance");
+
 
 const { getAllStudents } = require("./../db-utils")
 
