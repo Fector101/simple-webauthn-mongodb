@@ -66,6 +66,7 @@ function displayDateData(event){
         </div>
         `
     })
+    document.querySelector('#some-date-data').innerHTML=studentsHTML
 }
 populateDates()
 datesSelectELe.addEventListener('change',displayDateData)
