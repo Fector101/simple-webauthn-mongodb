@@ -52,10 +52,10 @@ function displayDateData(event){
                     <p>Name: ${each_student.name} &nbsp;</p>
                     <p>Matric No: ${each_student.matric_no}</p>
                 </div>
-            </div>
-            
-            <div class="times-attended">
+                
+                <div class="times-attended">
                 <p>Times attended: 1</p>
+                </div>
             </div>
 
             <div class="status">
